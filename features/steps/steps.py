@@ -18,6 +18,10 @@ def step_impl(context, text):
 def step_impl(context):
     pass
 
+@given(u'the server is online')
+def step_impl(context):
+    pass
+
 @when('the user pushes a direction')
 def step_impl(context):
     assert True is not False
@@ -50,6 +54,10 @@ def step_impl(context, text):
 @when('a picture is uploaded')
 def step_impl(context):
     # maximum speed
+    assert True is not False
+
+@when('the app is online')
+def step_impl(context):
     assert True is not False
 
 @then('the user is prompted to set "{text}"')
@@ -86,5 +94,9 @@ def step_impl(context):
     assert True is not False
 
 @then('the remote suggests that the race care is out of range or the battery is empty')
+def step_impl(context):
+    assert True is not False
+
+@then(u'the server is notified')
 def step_impl(context):
     assert True is not False
