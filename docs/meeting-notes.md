@@ -1,13 +1,20 @@
 # Meeting notes
 ## 27/11/2022
-- team contract: to be finalized and sent. The current version is ok
-- we drafted an outline of the document.
-  Now we should start filling it with the content.
-  When the content will be complete, we will review the sections to improve the presentation.
-  The target is 1000 words with some diagrams.
+- team contract: to be finalized and sent. Agreed to accept all of Marianne’s edits and sign
+- Confirmed meeting schedule availability
+- Discussed toy concept: how to scope our project.
+  - We drafted an outline of the document.
+  - Now we should start filling it with the content.
+  - When the content will be complete, we will review the sections to improve the presentation.
+  - Word count: instructions conflict on page count/word count: will proceed with 1000 words and confirm with Oli.
+  - Will make use of charts/diagrams
+- Decided to use the race car concept and demonstrate functionality in a retro video game
 - we will try to get feedback before the final submission in Unit 6
-- the project will be scrum-like to have some intermediate milestones to get feedback
-- we have a project on GitHub with an initial version of requirements in Gherkin
+- the project will be scrum-like to have some intermediate milestones to get feedback and to compensate for geographic dispersion of team and varying availability
+- Alberto has created a GitHub project for this assignment, teammates added - we will use this to develop and document our software. 
+- Alberto also loaded Gherkin requirements into the site based on Rob’s preliminary race car requirements
+- Walked through Djordje’s template and Marianne’s revisions; combined pragmatic format with assignment criteria
+- May break out a separate section for “objectives” if needed; will adjust sections and tables as content develops
 - we have three (initial) groups of requirements:
   - basic driving
   - parental control
