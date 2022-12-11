@@ -23,3 +23,24 @@
   - the children
   - the parents
   - the company producing the toy
+
+## 4/12/2022
+- document review
+- integration of the new comments
+- added missing sections
+- the first draft is complete
+
+## 11/12/2022
+- integration of all the comments
+- document review
+- language & spelling
+- adjust a few requirements to make them more SMART
+- sprint plan
+  - made consistent with the requirement
+  - a few adjustments
+- some requirements may be difficult to implement. A failure may be a "lesson learned"
+- the document is now complete
+- next steps
+  - make it a doc / pdf
+  - contact the tutor to enable the submission
+  - submit!
