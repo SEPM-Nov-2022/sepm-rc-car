@@ -44,3 +44,10 @@
   - make it a doc / pdf
   - contact the tutor to enable the submission
   - submit!
+
+## 18/12/2022
+- we'll start from a tutorial online to draft the videogame
+  - a draft will be refactored and pushed
+- the background will be the map of an apartment or a garden
+- the car should never leave the screen and there will be collision detection
+- no meetings on the 25th!
