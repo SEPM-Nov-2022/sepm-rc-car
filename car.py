@@ -11,6 +11,7 @@ DECELERATION = 2
 CAR_LENGTH = 2
 MAX_STEERING = 30
 MAX_ACCELERATION = 10.0
+BATTERY_USAGE = 0.01
 
 class Car:
     """it models the rc car"""
@@ -23,6 +24,7 @@ class Car:
         self.acceleration = 0.0
         self.steering = 0.0
         self.audio_handler = audio_handler
+        self.battery_level = 100.0
 
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
@@ -30,16 +32,17 @@ class Car:
         self._update_direction(pressed, game_time)
         self._update_misc(pressed, game_time)
         self._update(game_time)
+        self._update_battery()
 
     def get_battery_level(self):
         """return the percentage of the battery"""
-        return 100.0
+        return self.battery_level
 
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
-        if pressed[K_UP]:
+        if pressed[K_UP] and self.battery_level>0:
             self._accelerate(game_time)
-        elif pressed[K_DOWN]:
+        elif pressed[K_DOWN] and self.battery_level>0:
             self._reverse(game_time)
         elif pressed[K_SPACE]:
             self._brake(game_time)
@@ -58,6 +61,10 @@ class Car:
     def _update_misc(self, pressed, game_time):
         if pressed[K_h]:
             self.audio_handler(AudioEffect.HORN)
+
+    def _update_battery(self):
+        """use battery"""
+        self.battery_level = max(self.battery_level - (BATTERY_USAGE if self.velocity.x!=0 else 0), 0)
 
     def _update(self, game_time):
         """merges all inputs"""
