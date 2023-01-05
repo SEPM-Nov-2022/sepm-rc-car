@@ -3,9 +3,11 @@ import os
 import pygame
 
 from car import Car
+from audio_effect import AudioEffect
 
 ASSET_DIR = 'assets'
 ASSET_CAR = 'car.png'
+ASSET_HORN = 'horn.mp3'
 WIDTH = 1280
 HEIGHT = 720
 TICKS = 60
@@ -17,14 +19,14 @@ class Game:
     def __init__(self):
         """initialisation"""
         pygame.init()
+        pygame.mixer.init()
         pygame.display.set_caption("RC Car")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.exit = False
-        car_dir = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(f'{car_dir}/{ASSET_DIR}', ASSET_CAR) # 173x82
+        image_path = self._from_asset_dir(ASSET_CAR) # 173x82
         self.car_image = pygame.transform.scale(pygame.image.load(image_path),(50,25))
-        self.car = Car(0, 0)
+        self.car = Car(0, 0, self.play_audio)
 
     def run(self):
         """main loop"""
@@ -39,6 +41,13 @@ class Game:
 
         pygame.quit()
 
+    def play_audio(self, audio:AudioEffect):
+        """play sound"""
+        if audio == AudioEffect.HORN:
+            pygame.mixer.music.load(self._from_asset_dir(ASSET_HORN))
+            pygame.mixer.music.set_volume(0.7)
+            pygame.mixer.music.play()
+
     def _draw(self):
         """updates the screen"""
         self.screen.fill((50, 50, 50))
@@ -46,3 +55,7 @@ class Game:
         rect = rotated.get_rect()
         self.screen.blit(rotated, self.car.position * PPU - (rect.width / 2, rect.height / 2))
         pygame.display.flip()
+
+    def _from_asset_dir(self, asset_name):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        return os.path.join(f'{base_dir}/{ASSET_DIR}', asset_name)

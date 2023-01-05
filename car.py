@@ -1,7 +1,8 @@
 """Car"""
 from math import sin, radians, degrees, copysign
-from pygame import K_UP, K_DOWN, K_RIGHT, K_LEFT, K_SPACE
+from pygame import K_UP, K_DOWN, K_RIGHT, K_LEFT, K_SPACE, K_h
 from pygame.math import Vector2
+from audio_effect import AudioEffect
 
 STEERING_FACTOR = 32
 MAX_VELOCITY = 20
@@ -14,18 +15,20 @@ MAX_ACCELERATION = 5.0
 class Car:
     """it models the rc car"""
 
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, audio_handler):
         """initialisation"""
         self.position = Vector2(pos_x, pos_y)
         self.velocity = Vector2(0.0, 0.0)
         self.angle = 0.0
         self.acceleration = 0.0
         self.steering = 0.0
+        self.audio_handler = audio_handler
 
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
         self._update_speed(pressed, game_time)
         self._update_direction(pressed, game_time)
+        self._update_misc(pressed, game_time)
         self._update(game_time)
 
     def get_battery_level(self):
@@ -51,6 +54,10 @@ class Car:
             self._steer_left(game_time)
         else:
             self._no_steering(game_time)
+
+    def _update_misc(self, pressed, game_time):
+        if pressed[K_h]:
+            self.audio_handler(AudioEffect.HORN)
 
     def _update(self, game_time):
         """merges all inputs"""
