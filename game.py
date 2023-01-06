@@ -9,7 +9,6 @@ from audio_effect import AudioEffect
 ASSET_DIR = 'assets'
 ASSET_CAR = 'car.png'
 ASSET_BATTERY = 'battery.png'
-ASSET_HORN = 'horn.mp3'
 WIDTH = 1280
 HEIGHT = 720
 BATTERY_WIDTH = 100
@@ -25,6 +24,7 @@ class Game:
     def __init__(self):
         """initialisation"""
         pygame.init()
+        pygame.mixer.set_num_channels(2)
         pygame.mixer.init()
         pygame.display.set_caption("RC Car")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,7 +32,7 @@ class Game:
         self.exit = False
         image_path = self._from_asset_dir(ASSET_CAR) # 173x82
         self.car_image = pygame.transform.scale(pygame.image.load(image_path),(50,25))
-        self.car = Car(0, 0, self)
+        self.car = Car(0, 0, self.play_audio)
 
     def run(self):
         """main loop"""
@@ -49,10 +49,8 @@ class Game:
 
     def play_audio(self, audio:AudioEffect):
         """play sound"""
-        if audio == AudioEffect.HORN:
-            pygame.mixer.music.load(self._from_asset_dir(ASSET_HORN))
-            pygame.mixer.music.set_volume(0.7)
-            pygame.mixer.music.play()
+        sound = pygame.mixer.Sound(self._from_asset_dir(audio.value.path))
+        pygame.mixer.Channel(audio.value.channel).play(sound)
 
     def _draw(self):
         """updates the screen"""
@@ -101,7 +99,6 @@ class Game:
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
         battery_rect = self.battery_bar.get_rect(topleft=(BATTERY_X, BATTERY_Y))
         return (battery_rect, battery_image)
-
 
     def _from_asset_dir(self, asset_name):
         base_dir = os.path.dirname(os.path.abspath(__file__))

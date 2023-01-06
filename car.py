@@ -1,7 +1,10 @@
 """Car"""
+from datetime import datetime
 from math import sin, radians, degrees, copysign
 from pygame import K_UP, K_DOWN, K_RIGHT, K_LEFT, K_SPACE, K_h
 from pygame.math import Vector2
+from typing import Callable
+
 from audio_effect import AudioEffect
 
 STEERING_FACTOR = 32
@@ -12,11 +15,12 @@ CAR_LENGTH = 2
 MAX_STEERING = 30
 MAX_ACCELERATION = 10.0
 BATTERY_USAGE = 0.01
+BATTERY_LOW_ALERT = 30
 
 class Car:
     """it models the rc car"""
 
-    def __init__(self, pos_x, pos_y, audio_handler):
+    def __init__(self, pos_x, pos_y, audio_handler: Callable[[AudioEffect],None]):
         """initialisation"""
         self.position = Vector2(pos_x, pos_y)
         self.velocity = Vector2(0.0, 0.0)
@@ -25,6 +29,7 @@ class Car:
         self.steering = 0.0
         self.audio_handler = audio_handler
         self.battery_level = 100.0
+        self.last_alert = datetime.now()
 
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
@@ -60,11 +65,13 @@ class Car:
 
     def _update_misc(self, pressed, game_time):
         if pressed[K_h]:
-            self.audio_handler(AudioEffect.HORN)
+            self._play_the_horn()
 
     def _update_battery(self):
         """use battery"""
         self.battery_level = max(self.battery_level - (BATTERY_USAGE if self.velocity.x!=0 else 0), 0)
+        if self.battery_level < BATTERY_LOW_ALERT:
+            self._send_battery_alert()
 
     def _update(self, game_time):
         """merges all inputs"""
@@ -97,6 +104,16 @@ class Car:
         self._update_acceleration(-copysign(BRAKE_DECELERATION, self.velocity.x)
             if abs(self.velocity.x) > game_time * BRAKE_DECELERATION
             else -self.velocity.x / game_time)
+
+    def _play_the_horn(self):
+        self.audio_handler(AudioEffect.HORN)
+
+    def _send_battery_alert(self):
+        now = datetime.now()
+        delta = now - self.last_alert
+        if delta.seconds > 5:
+            self.last_alert = now
+            self.audio_handler(AudioEffect.BATTERY_LOW)
 
     def _no_input(self, game_time):
         """the car will proceed by inertia"""
