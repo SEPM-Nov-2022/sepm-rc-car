@@ -5,7 +5,7 @@ source = rc_car
 omit =
     */__init__.py
     */constants.py
-    src/threat_modelling/app.py
+    src/rc_car/rc_car_launcher.py
 
 exclude_lines =
     pragma: no cover
