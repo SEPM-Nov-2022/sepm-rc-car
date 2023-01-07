@@ -1,1 +1,1 @@
-python3 rc_car.py
+python3 src/rc_car/rc_car_launcher.py

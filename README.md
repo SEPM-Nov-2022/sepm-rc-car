@@ -1,8 +1,72 @@
 # sepm-rc-car
 
+## Description
+This repository implements a game to control a race car developed using the `pygame` library in Python, as a part of 
+the module on 'Software Engineering Project Management' at the University of Essex.
+
+## Repository structure
+
+```
+.
+├── assets                                # Directory containing app-related images and audio files
+│
+├── docs                                  # Directory with app-related docs and the team's meeting notes
+│
+├── features                              # Directory detailing the features and their associated scenarios
+│
+├── src                                   # Directory containing the source codes for a race car game
+│   └── rc_car                            # The main directory
+│     ├── car_model                       # Directory with definition of car model and related audio effects and constants
+│     ├── constants.py                    # The race car game's main constants
+│     ├── game.py                         # The race car game's main functionalities
+│     └── rc_car_launcher.py              # The race car game launcher
+│
+├── .bandit
+├── .coveragerc
+├── .gitignore
+├── checks.sh
+├── environment.yml
+├── LICENSE.md
+├── pyproject.toml
+├── README.md
+├── run.sh
+├── run-cucumber.sh
+├── setup.cfg
+└── setup.py
+```
+
 ## Installation
 
-launch `./setup.sh`
+* Update conda
+
+Update conda by executing the following command:
+
+`conda update -n base -c defaults conda`
+
+* Create the virtual environment
+
+Create a conda virtual environment named `rc_car` and install the required dependencies/libraries
+(listed in the `environment.yml` file) by executing the following command: 
+
+`conda env create --name rc_car --file environment.yml`
+
+* Activate and deactivate the conda environment
+
+To activate this environment, execute the following command:
+
+`conda activate rc_car`
+
+To deactivate the environment, execute the following command:
+
+`conda deactivate`
+
+To install the project as a package in non-editable (standard) mode:
+
+`pip install .`
+
+To install the project as a package in editable (development) mode:
+
+`pip install -e .`
 
 ## Run
 
@@ -10,11 +74,11 @@ launch `./run.sh`
 
 ## Quality checks
 
-launch `./checks.sh` then verify `banding.txt` and `pylint.txt`
+launch `./checks.sh` then verify `banding.txt` for security and `pylint.txt` for linting
 
-Note: pygame errors [may be impossible to fix](https://stackoverflow.com/questions/57116879/how-to-fix-pygame-module-has-no-member-k-right)
+Note: some `pygame`-related errors [may be impossible to fix](https://stackoverflow.com/questions/57116879/how-to-fix-pygame-module-has-no-member-k-right).
 
-e.g.
+e.g.:
 ```
 py:3:0: E0611: No name 'K_UP' in module 'pygame.constants' (no-name-in-module)
 car.py:3:0: E0611: No name 'K_DOWN' in module 'pygame.constants' (no-name-in-module)
