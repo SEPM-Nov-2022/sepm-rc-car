@@ -26,7 +26,8 @@ class Game:
         image_path = self._from_asset_dir(ASSET_CAR)  # 173x82
         self.car_image = pygame.transform.scale(
             pygame.image.load(image_path), (50, 25))
-        self.car = Car(0, 0, self.play_audio)
+        self.car = Car(Vector2(0, 0), self.play_audio)
+        self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
 
     def run(self):
         """main loop"""
@@ -46,6 +47,7 @@ class Game:
         """play sound"""
         sound = pygame.mixer.Sound(self._from_asset_dir(audio.value.path))
         pygame.mixer.Channel(audio.value.channel).play(sound)
+        print(f'INFO - playing sound {audio.value.path}')
 
     def _draw(self):
         """updates the screen"""
@@ -77,9 +79,9 @@ class Game:
         """creates the battery bar"""
         battery_image = pygame.Surface((BATTERY_WIDTH + 2, BATTERY_HEIGHT + 2))
         black = pygame.Color(0, 0, 0)
-        for x in range(battery_image.get_width()):
-            for y in range(battery_image.get_height()):
-                battery_image.set_at((x, y), black)
+        for image_x in range(battery_image.get_width()):
+            for image_y in range(battery_image.get_height()):
+                battery_image.set_at((image_x, image_y), black)
         self.battery_bar = pygame.Surface(
             (BATTERY_WIDTH + 2, BATTERY_HEIGHT + 2))
         battery_rect = self.battery_bar.get_rect(
@@ -95,7 +97,6 @@ class Game:
         for x in range(battery_image.get_width()):
             for y in range(battery_image.get_height()):
                 battery_image.set_at((x, y), color)
-        self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
         battery_rect = self.battery_bar.get_rect(
             topleft=(BATTERY_X, BATTERY_Y))
         return battery_rect, battery_image
@@ -103,5 +104,4 @@ class Game:
     def _from_asset_dir(self, asset_name):
         base_dir = os.path.dirname(
             os.path.abspath(__file__)).split(CAR_GAME_DIR)[0]
-        print('base_dir is: ', base_dir)
         return os.path.join(f'{base_dir}/{ASSET_DIR}', asset_name)

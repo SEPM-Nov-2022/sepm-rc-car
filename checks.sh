@@ -7,4 +7,4 @@ pip3 install bandit
 bandit --ini .bandit -r > bandit.txt
 
 # run pylint
-pylint *.py > pylint.txt
+pylint src/rc_car/*.py src/rc_car/*/*.py > pylint.txt

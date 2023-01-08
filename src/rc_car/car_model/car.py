@@ -1,6 +1,4 @@
 """Race car model"""
-
-from datetime import datetime
 from math import copysign, degrees, radians, sin
 from typing import Callable
 
@@ -8,8 +6,8 @@ from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
 from pygame.math import Vector2
 
 from .audio_effect import AudioEffect
-from .constants import (ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT,
-                        BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
+from .battery import Battery
+from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
                         DECELERATION, MAX_ACCELERATION, MAX_STEERING,
                         MAX_VELOCITY, STEERING_FACTOR)
 
@@ -17,16 +15,15 @@ from .constants import (ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT,
 class Car:
     """it models the rc car"""
 
-    def __init__(self, pos_x, pos_y, audio_handler: Callable[[AudioEffect], None]):
+    def __init__(self, position:Vector2, audio_handler: Callable[[AudioEffect], None]):
         """initialisation"""
-        self.position = Vector2(pos_x, pos_y)
+        self.position = position
         self.velocity = Vector2(0.0, 0.0)
         self.angle = 0.0
         self.acceleration = 0.0
         self.steering = 0.0
         self.audio_handler = audio_handler
-        self.battery_level = BATTERY_LEVEL_INIT
-        self.last_alert = datetime.now()
+        self.battery = Battery()
 
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
@@ -38,13 +35,13 @@ class Car:
 
     def get_battery_level(self):
         """return the percentage of the battery"""
-        return self.battery_level
+        return self.battery.battery_level
 
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
-        if pressed[K_UP] and self.battery_level > 0:
+        if pressed[K_UP] and self.battery.battery_level > 0:
             self._accelerate(game_time)
-        elif pressed[K_DOWN] and self.battery_level > 0:
+        elif pressed[K_DOWN] and self.battery.battery_level > 0:
             self._reverse(game_time)
         elif pressed[K_SPACE]:
             self._brake(game_time)
@@ -66,9 +63,8 @@ class Car:
 
     def _update_battery(self):
         """use battery"""
-        self.battery_level = max(
-            self.battery_level - (BATTERY_USAGE if self.velocity.x != 0 else 0), 0)
-        if self.battery_level < BATTERY_LOW_ALERT:
+        self.battery.consume(BATTERY_USAGE if self.velocity.x != 0 else 0)
+        if self.battery.is_alert():
             self._send_battery_alert()
 
     def _update(self, game_time):
@@ -108,11 +104,7 @@ class Car:
         self.audio_handler(AudioEffect.HORN)
 
     def _send_battery_alert(self):
-        now = datetime.now()
-        delta = now - self.last_alert
-        if delta.seconds > ALERT_SECS:
-            self.last_alert = now
-            self.audio_handler(AudioEffect.BATTERY_LOW)
+        self.audio_handler(AudioEffect.BATTERY_LOW)
 
     def _no_input(self, game_time):
         """the car will proceed by inertia"""
