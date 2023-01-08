@@ -1,5 +1,5 @@
 """Cucumber steps"""
-from behave import given,when,then
+from behave import given,when,then # pylint: disable=no-name-in-module
 
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
@@ -100,10 +100,10 @@ def the_user_is_prompted_to_set_option(context, text):
 @then('the car moves in that direction')
 def the_car_moves_in_that_direction(context):
     """verify a forward movement"""
-    assert context.car.status.velocity.x > 0
-    assert context.car.status.velocity.y == 0
-    assert context.car.status.position.x > 0
-    assert context.car.status.position.y == 0
+    assert context.car.status['velocity'].x > 0
+    assert context.car.status['velocity'].y == 0
+    assert context.car.status['position'].x > 0
+    assert context.car.status['position'].y == 0
 
 
 @then('the car sounds the horn')
