@@ -5,6 +5,7 @@ import os
 import pygame
 from car_model.audio_effect import AudioEffect
 from car_model.car import Car
+from remote import Remote
 from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, BATTERY_HEIGHT,
                        BATTERY_WIDTH, BATTERY_X, BATTERY_Y, CAR_GAME_CAPTION,
                        CAR_GAME_DIR, HEIGHT, PPU, TICKS, WIDTH)
@@ -26,17 +27,20 @@ class Game:
         image_path = self._from_asset_dir(ASSET_CAR)  # 173x82
         self.car_image = pygame.transform.scale(
             pygame.image.load(image_path), (50, 25))
-        self.car = Car(Vector2(0, 0), self.play_audio)
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
+        self.car = Car(Vector2(0, 0), self.play_audio)
+        self.remote = Remote(self.notify)
+        self.remote.connect_to(self.car)
 
     def run(self):
         """main loop"""
+        can_drive = True
         while not self.exit:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit = True
-
-            self.car.command(pygame.key.get_pressed(),
+            if can_drive:
+                can_drive = self.remote.command(pygame.key.get_pressed(),
                              self.clock.get_time()/1000)
             self._draw()
             self.clock.tick(TICKS)
@@ -48,6 +52,9 @@ class Game:
         sound = pygame.mixer.Sound(self._from_asset_dir(audio.value.path))
         pygame.mixer.Channel(audio.value.channel).play(sound)
         print(f'INFO - playing sound {audio.value.path}')
+
+    def notify(self, message:str):
+        print(message)
 
     def _draw(self):
         """updates the screen"""

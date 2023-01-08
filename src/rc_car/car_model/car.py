@@ -37,6 +37,10 @@ class Car:
         """return the percentage of the battery"""
         return self.battery.battery_level
 
+    def handshake_remote(self):
+        """returns True if successful"""
+        return self.battery.battery_level > 0
+
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:
