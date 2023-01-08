@@ -8,7 +8,8 @@ from car_model.car import Car
 from car_model.remote import Remote
 from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, BATTERY_HEIGHT,
                        BATTERY_WIDTH, BATTERY_X, BATTERY_Y, CAR_GAME_CAPTION,
-                       CAR_GAME_DIR, HEIGHT, PPU, TICKS, WIDTH)
+                       CAR_GAME_DIR, HEIGHT, MAP_MIN_X, MAP_MIN_Y, MAP_MAX_X,
+                       MAP_MAX_Y, PPU, TICKS, WIDTH)
 from pygame.math import Vector2
 
 
@@ -28,7 +29,7 @@ class Game:
         self.car_image = pygame.transform.scale(
             pygame.image.load(image_path), (50, 25))
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
-        self.car = Car(Vector2(0, 0), self.play_audio)
+        self.car = Car(Vector2(2, 2), self.play_audio, self.check_walls)
         self.remote = Remote(self.notify)
         self.remote.connect_to(self.car)
 
@@ -54,14 +55,23 @@ class Game:
         print(f'INFO - playing sound {audio.value.path}')
 
     def notify(self, message:str):
+        """prints a notification"""
+        #TODO add some text in the screen
         print(message)
+
+    def check_walls(self, next_position):
+        """check if the position is allowed"""
+        return next_position.x>=MAP_MIN_X \
+                and next_position.y>=MAP_MIN_Y \
+                    and next_position.x<=MAP_MAX_X \
+                        and next_position.y<=MAP_MAX_Y
 
     def _draw(self):
         """updates the screen"""
         self.screen.fill((50, 50, 50))
-        rotated = pygame.transform.rotate(self.car_image, self.car.angle)
+        rotated = pygame.transform.rotate(self.car_image, self.car.status.angle)
         rect = rotated.get_rect()
-        self.screen.blit(rotated, self.car.position * PPU -
+        self.screen.blit(rotated, self.car.status.position * PPU -
                          (rect.width / 2, rect.height / 2))
 
         self._draw_battery()
@@ -101,9 +111,9 @@ class Game:
         color = pygame.Color(0, 0xff, 0) if level > 30 \
             else pygame.Color(0xff, 0xff, 0) if level > 10 \
             else pygame.Color(0xff, 0, 0)
-        for x in range(battery_image.get_width()):
-            for y in range(battery_image.get_height()):
-                battery_image.set_at((x, y), color)
+        for image_x in range(battery_image.get_width()):
+            for image_y in range(battery_image.get_height()):
+                battery_image.set_at((image_x, image_y), color)
         battery_rect = self.battery_bar.get_rect(
             topleft=(BATTERY_X, BATTERY_Y))
         return battery_rect, battery_image

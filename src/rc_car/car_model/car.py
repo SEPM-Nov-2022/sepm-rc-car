@@ -7,22 +7,22 @@ from pygame.math import Vector2
 
 from .audio_effect import AudioEffect
 from .battery import Battery
+from .car_status import CarStatus
 from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
                         DECELERATION, MAX_ACCELERATION, MAX_STEERING,
                         MAX_VELOCITY, STEERING_FACTOR)
 
-
 class Car:
     """it models the rc car"""
 
-    def __init__(self, position:Vector2, audio_handler: Callable[[AudioEffect], None]):
+    def __init__(self,
+                position:Vector2,
+                audio_handler: Callable[[AudioEffect], None],
+                check_walls_handler: Callable[[Vector2],bool]):
         """initialisation"""
-        self.position = position
-        self.velocity = Vector2(0.0, 0.0)
-        self.angle = 0.0
-        self.acceleration = 0.0
-        self.steering = 0.0
+        self.status = CarStatus(position)
         self.audio_handler = audio_handler
+        self.check_walls_handler = check_walls_handler
         self.battery = Battery()
 
     def command(self, pressed, game_time):
@@ -67,41 +67,45 @@ class Car:
 
     def _update_battery(self):
         """use battery"""
-        self.battery.consume(BATTERY_USAGE if self.velocity.x != 0 else 0)
+        self.battery.consume(BATTERY_USAGE if self.status.velocity.x != 0 else 0)
         if self.battery.is_alert():
             self._send_battery_alert()
 
     def _update(self, game_time):
         """merges all inputs"""
-        self.velocity += (self.acceleration * game_time, 0)
-        self.velocity.x = max(-MAX_VELOCITY,
-                              min(self.velocity.x, MAX_VELOCITY))
+        self.status.velocity += (self.status.acceleration * game_time, 0)
+        self.status.velocity.x = max(-MAX_VELOCITY,
+                              min(self.status.velocity.x, MAX_VELOCITY))
 
-        if self.steering:
-            turning_radius = CAR_LENGTH / sin(radians(self.steering))
-            angular_velocity = self.velocity.x / turning_radius
+        if self.status.steering:
+            turning_radius = CAR_LENGTH / sin(radians(self.status.steering))
+            angular_velocity = self.status.velocity.x / turning_radius
         else:
             angular_velocity = 0
 
-        self.position += self.velocity.rotate(-self.angle) * game_time
-        self.angle += degrees(angular_velocity) * game_time
+        position_change = self.status.velocity.rotate(-self.status.angle) * game_time
+        if self.check_walls_handler(self.status.position + position_change):
+            self.status.position += position_change
+            self.status.angle += degrees(angular_velocity) * game_time
+        else:
+            self.status.velocity *= 0
 
     def _accelerate(self, game_time):
         """acceleration control"""
         self._update_acceleration(
-            BRAKE_DECELERATION if self.velocity.x < 0 else self.acceleration + game_time)
+            BRAKE_DECELERATION if self.status.velocity.x < 0 else self.status.acceleration + game_time)
 
     def _reverse(self, game_time):
         """acceleration in reverse"""
-        self._update_acceleration(-BRAKE_DECELERATION if self.velocity.x >
-                                  0 else self.acceleration - game_time)
+        self._update_acceleration(-BRAKE_DECELERATION if self.status.velocity.x >
+                                  0 else self.status.acceleration - game_time)
 
     def _brake(self, game_time):
         """brake control"""
         self._update_acceleration(
-            -copysign(BRAKE_DECELERATION, self.velocity.x)
-            if abs(self.velocity.x) > game_time * BRAKE_DECELERATION
-            else -self.velocity.x / game_time
+            -copysign(BRAKE_DECELERATION, self.status.velocity.x)
+            if abs(self.status.velocity.x) > game_time * BRAKE_DECELERATION
+            else -self.status.velocity.x / game_time
         )
 
     def _play_the_horn(self):
@@ -113,14 +117,14 @@ class Car:
     def _no_input(self, game_time):
         """the car will proceed by inertia"""
         self._update_acceleration(
-            -copysign(DECELERATION, self.velocity.x)
-            if abs(self.velocity.x) > game_time * DECELERATION
-            else -self.velocity.x / (game_time if game_time != 0 else 1)
+            -copysign(DECELERATION, self.status.velocity.x)
+            if abs(self.status.velocity.x) > game_time * DECELERATION
+            else -self.status.velocity.x / (game_time if game_time != 0 else 1)
         )
 
     def _update_acceleration(self, change):
         """limit the acceleration"""
-        self.acceleration = max(-MAX_ACCELERATION,
+        self.status.acceleration = max(-MAX_ACCELERATION,
                                 min(change, MAX_ACCELERATION))
 
     def _steer_right(self, game_time):
@@ -137,6 +141,6 @@ class Car:
 
     def _steer(self, game_time, direction):
         """updates the steering control"""
-        self.steering = self.steering + direction * \
+        self.status.steering = self.status.steering + direction * \
             STEERING_FACTOR * game_time if direction != 0 else 0
-        self.steering = max(-MAX_STEERING, min(self.steering, MAX_STEERING))
+        self.status.steering = max(-MAX_STEERING, min(self.status.steering, MAX_STEERING))

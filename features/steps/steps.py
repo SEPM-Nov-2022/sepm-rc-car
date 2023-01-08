@@ -100,10 +100,10 @@ def the_user_is_prompted_to_set_option(context, text):
 @then('the car moves in that direction')
 def the_car_moves_in_that_direction(context):
     """verify a forward movement"""
-    assert context.car.velocity[0] > 0
-    assert context.car.velocity[1] == 0
-    assert context.car.position[0] > 0
-    assert context.car.position[1] == 0
+    assert context.car.status.velocity.x > 0
+    assert context.car.status.velocity.y == 0
+    assert context.car.status.position.x > 0
+    assert context.car.status.position.y == 0
 
 
 @then('the car sounds the horn')
@@ -151,10 +151,12 @@ def the_server_is_notified(context):
 
 def init(context, battery_is_full:bool):
     """utility method to initialise the car with full/empty battery"""
-    def handler(effect):
+    def audio_handler(effect):
         context.audio_handler_calls.append(effect)
     def notifications(message):
         context.notifications.append(message)
+    def check_walls_handler(position:Vector2):
+        return True
     context.pressed = {}
     context.pressed[K_RIGHT] = False
     context.pressed[K_UP] = False
@@ -164,7 +166,7 @@ def init(context, battery_is_full:bool):
     context.pressed[K_h] = False
     context.audio_handler_calls = []
     context.notifications = []
-    context.car = Car(Vector2(0,0), handler)
+    context.car = Car(Vector2(0,0), audio_handler, check_walls_handler)
     if not battery_is_full:
         context.car.battery.consume(100)
     context.remote = Remote(notifications)
