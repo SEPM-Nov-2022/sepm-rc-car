@@ -2,7 +2,7 @@
 from behave import given,when,then # pylint: disable=no-name-in-module
 
 from pygame.math import Vector2
-from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
+from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
 
 from src.rc_car.car_model.car import Car
 from src.rc_car.car_model.remote import Remote
@@ -164,6 +164,7 @@ def init(context, battery_is_full:bool):
     context.pressed[K_DOWN] = False
     context.pressed[K_SPACE] = False
     context.pressed[K_h] = False
+    context.pressed[K_c] = False
     context.audio_handler_calls = []
     context.notifications = []
     context.car = Car(Vector2(0,0), audio_handler, check_walls_handler)

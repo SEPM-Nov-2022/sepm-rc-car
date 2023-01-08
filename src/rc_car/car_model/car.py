@@ -1,14 +1,15 @@
 """Race car model"""
 from math import copysign, degrees, radians, sin
+from datetime import datetime
 from typing import Callable
 
-from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
+from pygame import (K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c)
 from pygame.math import Vector2
 
 from .audio_effect import AudioEffect
 from .battery import Battery
 from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
-                        DECELERATION, MAX_ACCELERATION, MAX_STEERING,
+                        CAR_COLORS, DECELERATION, MAX_ACCELERATION, MAX_STEERING,
                         MAX_VELOCITY, STEERING_FACTOR)
 
 class Car:
@@ -25,6 +26,8 @@ class Car:
         self.status['angle'] = 0.0
         self.status['acceleration'] = 0.0
         self.status['steering'] = 0.0
+        self.status['color'] = 0
+        self.status['color_change'] = datetime.now()
 
         self.audio_handler = audio_handler
         self.check_walls_handler = check_walls_handler
@@ -56,6 +59,11 @@ class Car:
         """returns the angle"""
         return self.status['angle']
 
+    @property
+    def color(self):
+        """returns the color"""
+        return CAR_COLORS[self.status['color']]
+
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:
@@ -79,6 +87,8 @@ class Car:
     def _update_misc(self, pressed):
         if pressed[K_h]:
             self._play_the_horn()
+        elif pressed[K_c]:
+            self._cicle_color()
 
     def _update_battery(self):
         """use battery"""
@@ -161,3 +171,11 @@ class Car:
         self.status['steering'] = self.status['steering'] + direction * \
             STEERING_FACTOR * game_time if direction != 0 else 0
         self.status['steering'] = max(-MAX_STEERING, min(self.status['steering'], MAX_STEERING))
+
+    def _cicle_color(self):
+        now = datetime.now()
+        if (now - self.status['color_change']).seconds<1:
+            return
+        self.status['color_change'] = now
+        self.status['color'] = self.status['color'] + 1 \
+            if self.status['color'] + 1 < len(CAR_COLORS) else 0

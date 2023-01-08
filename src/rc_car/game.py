@@ -6,9 +6,10 @@ import pygame
 from car_model.audio_effect import AudioEffect
 from car_model.car import Car
 from car_model.remote import Remote
-from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, BATTERY_HEIGHT,
-                       BATTERY_WIDTH, BATTERY_X, BATTERY_Y, CAR_GAME_CAPTION,
-                       CAR_GAME_DIR, HEIGHT, MAP_MIN_X, MAP_MIN_Y, MAP_MAX_X,
+from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, ASSET_DRIVER,
+                       BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X, BATTERY_Y,
+                       CAR_GAME_CAPTION, CAR_GAME_DIR, DRIVER_SIZE, DRIVER_X,
+                       DRIVER_Y, HEIGHT, MAP_MIN_X, MAP_MIN_Y, MAP_MAX_X,
                        MAP_MAX_Y, PPU, TICKS, WIDTH)
 from pygame.math import Vector2
 
@@ -25,9 +26,8 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.exit = False
-        image_path = self._from_asset_dir(ASSET_CAR)  # 173x82
-        self.car_image = pygame.transform.scale(
-            pygame.image.load(image_path), (50, 25))
+
+        self.driver_image = self._load_image(ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
         self.car = Car(Vector2(2, 2), self.play_audio, self.check_walls)
         self.remote = Remote(self.notify)
@@ -69,13 +69,24 @@ class Game:
     def _draw(self):
         """updates the screen"""
         self.screen.fill((50, 50, 50))
-        rotated = pygame.transform.rotate(self.car_image, self.car.angle)
+        self._draw_car()
+        self._draw_driver()
+        self._draw_battery()
+        pygame.display.flip()
+
+    def _draw_car(self):
+        car_image = self._load_image(ASSET_CAR, (50, 25))
+        car_led = pygame.Surface(car_image.get_size()).convert_alpha()
+        car_led.fill(self.car.color)
+        car_image.blit(car_led, (0, 0), special_flags = pygame.BLEND_MULT)
+        rotated = pygame.transform.rotate(car_image, self.car.angle)
         rect = rotated.get_rect()
         self.screen.blit(rotated, self.car.position * PPU -
                          (rect.width / 2, rect.height / 2))
 
-        self._draw_battery()
-        pygame.display.flip()
+    def _draw_driver(self):
+        #driver_image
+        self.screen.blit(self.driver_image, Vector2(DRIVER_X, DRIVER_Y))
 
     def _draw_battery(self):
         """draw the battery bar and icon"""
@@ -117,6 +128,10 @@ class Game:
         battery_rect = self.battery_bar.get_rect(
             topleft=(BATTERY_X, BATTERY_Y))
         return battery_rect, battery_image
+
+    def _load_image(self, asset:str, size):
+        image_path = self._from_asset_dir(asset)
+        return pygame.transform.scale(pygame.image.load(image_path), size)
 
     def _from_asset_dir(self, asset_name):
         base_dir = os.path.dirname(

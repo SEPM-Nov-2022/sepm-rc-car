@@ -9,6 +9,7 @@ class Remote:
         """creates the instance"""
         self.notification_callback = notification_callback
         self.car = None
+        self._filter_key = []
 
     def connect_to(self, car:Car):
         """connects to a car"""
@@ -17,7 +18,8 @@ class Remote:
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
         if self.car.handshake_remote():
-            self.car.command(pressed, game_time)
+            if pressed not in self._filter_key:
+                self.car.command(pressed, game_time)
             return True
         self.notification_callback("the car is unreachable or out of battery")
         return False
