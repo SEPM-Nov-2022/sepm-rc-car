@@ -1,12 +1,13 @@
 """Define sounds"""
 from enum import Enum
 
-ASSET_HORN = 'horn.mp3'
-ASSET_BATTERY_LOW = 'battery_low.mp3'
+from .constants import ASSET_BATTERY_LOW, ASSET_HORN
+
 
 class AudioEffectDef:
     """List of sounds"""
-    def __init__(self, channel:int, path:str):
+
+    def __init__(self, channel: int, path: str):
         self._channel = channel
         self._path = path
 
@@ -17,6 +18,7 @@ class AudioEffectDef:
     @property
     def path(self):
         return self._path
+
 
 class AudioEffect(Enum):
     HORN = AudioEffectDef(0, ASSET_HORN)

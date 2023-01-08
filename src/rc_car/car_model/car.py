@@ -1,26 +1,23 @@
-"""Car"""
+"""Race car model"""
+
 from datetime import datetime
-from math import sin, radians, degrees, copysign
-from pygame import K_UP, K_DOWN, K_RIGHT, K_LEFT, K_SPACE, K_h
-from pygame.math import Vector2
+from math import copysign, degrees, radians, sin
 from typing import Callable
 
-from audio_effect import AudioEffect
+from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
+from pygame.math import Vector2
 
-STEERING_FACTOR = 32
-MAX_VELOCITY = 20
-BRAKE_DECELERATION = 10
-DECELERATION = 2
-CAR_LENGTH = 2
-MAX_STEERING = 30
-MAX_ACCELERATION = 10.0
-BATTERY_USAGE = 0.01
-BATTERY_LOW_ALERT = 20
+from .audio_effect import AudioEffect
+from .constants import (ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT,
+                        BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
+                        DECELERATION, MAX_ACCELERATION, MAX_STEERING,
+                        MAX_VELOCITY, STEERING_FACTOR)
+
 
 class Car:
     """it models the rc car"""
 
-    def __init__(self, pos_x, pos_y, audio_handler: Callable[[AudioEffect],None]):
+    def __init__(self, pos_x, pos_y, audio_handler: Callable[[AudioEffect], None]):
         """initialisation"""
         self.position = Vector2(pos_x, pos_y)
         self.velocity = Vector2(0.0, 0.0)
@@ -28,14 +25,14 @@ class Car:
         self.acceleration = 0.0
         self.steering = 0.0
         self.audio_handler = audio_handler
-        self.battery_level = 100.0
+        self.battery_level = BATTERY_LEVEL_INIT
         self.last_alert = datetime.now()
 
     def command(self, pressed, game_time):
         """interacts with the remote controller"""
         self._update_speed(pressed, game_time)
         self._update_direction(pressed, game_time)
-        self._update_misc(pressed, game_time)
+        self._update_misc(pressed)
         self._update(game_time)
         self._update_battery()
 
@@ -45,9 +42,9 @@ class Car:
 
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
-        if pressed[K_UP] and self.battery_level>0:
+        if pressed[K_UP] and self.battery_level > 0:
             self._accelerate(game_time)
-        elif pressed[K_DOWN] and self.battery_level>0:
+        elif pressed[K_DOWN] and self.battery_level > 0:
             self._reverse(game_time)
         elif pressed[K_SPACE]:
             self._brake(game_time)
@@ -63,20 +60,22 @@ class Car:
         else:
             self._no_steering(game_time)
 
-    def _update_misc(self, pressed, game_time):
+    def _update_misc(self, pressed):
         if pressed[K_h]:
             self._play_the_horn()
 
     def _update_battery(self):
         """use battery"""
-        self.battery_level = max(self.battery_level - (BATTERY_USAGE if self.velocity.x!=0 else 0), 0)
+        self.battery_level = max(
+            self.battery_level - (BATTERY_USAGE if self.velocity.x != 0 else 0), 0)
         if self.battery_level < BATTERY_LOW_ALERT:
             self._send_battery_alert()
 
     def _update(self, game_time):
         """merges all inputs"""
         self.velocity += (self.acceleration * game_time, 0)
-        self.velocity.x = max(-MAX_VELOCITY, min(self.velocity.x, MAX_VELOCITY))
+        self.velocity.x = max(-MAX_VELOCITY,
+                              min(self.velocity.x, MAX_VELOCITY))
 
         if self.steering:
             turning_radius = CAR_LENGTH / sin(radians(self.steering))
@@ -89,21 +88,21 @@ class Car:
 
     def _accelerate(self, game_time):
         """acceleration control"""
-        self._update_acceleration(BRAKE_DECELERATION
-            if self.velocity.x < 0
-            else self.acceleration + game_time)
+        self._update_acceleration(
+            BRAKE_DECELERATION if self.velocity.x < 0 else self.acceleration + game_time)
 
     def _reverse(self, game_time):
         """acceleration in reverse"""
-        self._update_acceleration(-BRAKE_DECELERATION
-            if self.velocity.x > 0
-            else self.acceleration - game_time)
+        self._update_acceleration(-BRAKE_DECELERATION if self.velocity.x >
+                                  0 else self.acceleration - game_time)
 
     def _brake(self, game_time):
         """brake control"""
-        self._update_acceleration(-copysign(BRAKE_DECELERATION, self.velocity.x)
+        self._update_acceleration(
+            -copysign(BRAKE_DECELERATION, self.velocity.x)
             if abs(self.velocity.x) > game_time * BRAKE_DECELERATION
-            else -self.velocity.x / game_time)
+            else -self.velocity.x / game_time
+        )
 
     def _play_the_horn(self):
         self.audio_handler(AudioEffect.HORN)
@@ -111,19 +110,22 @@ class Car:
     def _send_battery_alert(self):
         now = datetime.now()
         delta = now - self.last_alert
-        if delta.seconds > 5:
+        if delta.seconds > ALERT_SECS:
             self.last_alert = now
             self.audio_handler(AudioEffect.BATTERY_LOW)
 
     def _no_input(self, game_time):
         """the car will proceed by inertia"""
-        self._update_acceleration(-copysign(DECELERATION, self.velocity.x)
+        self._update_acceleration(
+            -copysign(DECELERATION, self.velocity.x)
             if abs(self.velocity.x) > game_time * DECELERATION
-            else -self.velocity.x / (game_time if game_time!=0 else 1))
+            else -self.velocity.x / (game_time if game_time != 0 else 1)
+        )
 
     def _update_acceleration(self, change):
         """limit the acceleration"""
-        self.acceleration = max(-MAX_ACCELERATION, min(change, MAX_ACCELERATION))
+        self.acceleration = max(-MAX_ACCELERATION,
+                                min(change, MAX_ACCELERATION))
 
     def _steer_right(self, game_time):
         """steer right"""
@@ -139,5 +141,6 @@ class Car:
 
     def _steer(self, game_time, direction):
         """updates the steering control"""
-        self.steering = self.steering + direction * STEERING_FACTOR * game_time if direction!=0 else 0
+        self.steering = self.steering + direction * \
+            STEERING_FACTOR * game_time if direction != 0 else 0
         self.steering = max(-MAX_STEERING, min(self.steering, MAX_STEERING))

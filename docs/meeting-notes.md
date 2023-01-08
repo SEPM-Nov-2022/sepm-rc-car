@@ -51,3 +51,15 @@
 - the background will be the map of an apartment or a garden
 - the car should never leave the screen and there will be collision detection
 - no meetings on the 25th!
+
+## 4/01/2023
+- **Alberto** and **Djordje** to continue developing the features required for the software to work as per the 
+requirements
+- **Rob** and **Marianne** to:
+  1) perform functional testing and UAT, and 
+  2) help with any docs as needed
+- **Rob** to create a 10-slide deck as per the assignment brief
+- **Marianne** to: 
+  1) assist with unit testing when needed, as well as 
+  2) ensure a neat repository structure, and
+  3) implement the required loggings throughout the application

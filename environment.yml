@@ -1,0 +1,23 @@
+name: rc_car
+channels:
+  - defaults
+  - conda
+  - conda-forge
+dependencies:
+  - python-graphviz
+  - python=3.6
+  - pytest
+  - pytest-cov
+  - autopep8
+  - bandit
+  - behave=1.2.6
+  - flake8
+  - isort
+  - pylint
+  - pyyaml
+  - pip
+  - pip:
+      - numpy
+      - pygame==2.1.2
+      - safety
+      - -e .

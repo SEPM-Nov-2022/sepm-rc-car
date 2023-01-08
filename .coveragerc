@@ -1,0 +1,11 @@
+[run]
+source = rc_car
+
+[report]
+omit =
+    */__init__.py
+    */constants.py
+    src/rc_car/rc_car_launcher.py
+
+exclude_lines =
+    pragma: no cover
