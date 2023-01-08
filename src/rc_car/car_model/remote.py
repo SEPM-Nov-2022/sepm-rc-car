@@ -1,6 +1,6 @@
 """Remote control"""
 from typing import Callable
-from .car_model.car import Car
+from .car import Car
 
 class Remote:
     """Remote controller for a Car"""

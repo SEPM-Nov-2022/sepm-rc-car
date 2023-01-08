@@ -5,7 +5,7 @@ from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
 
 from src.rc_car.car_model.car import Car
-from src.rc_car.remote import Remote
+from src.rc_car.car_model.remote import Remote
 from src.rc_car.car_model.audio_effect import AudioEffect
 
 

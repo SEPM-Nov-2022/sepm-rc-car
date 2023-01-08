@@ -5,7 +5,7 @@ import os
 import pygame
 from car_model.audio_effect import AudioEffect
 from car_model.car import Car
-from remote import Remote
+from car_model.remote import Remote
 from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, BATTERY_HEIGHT,
                        BATTERY_WIDTH, BATTERY_X, BATTERY_Y, CAR_GAME_CAPTION,
                        CAR_GAME_DIR, HEIGHT, PPU, TICKS, WIDTH)
