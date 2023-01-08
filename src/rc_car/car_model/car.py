@@ -41,6 +41,16 @@ class Car:
         """returns True if successful"""
         return self.battery.battery_level > 0
 
+    @property
+    def position(self):
+        """returns the postion"""
+        return self.status.position   
+
+    @property
+    def angle(self):
+        """returns the angle"""
+        return self.status.angle
+
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:

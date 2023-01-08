@@ -69,9 +69,9 @@ class Game:
     def _draw(self):
         """updates the screen"""
         self.screen.fill((50, 50, 50))
-        rotated = pygame.transform.rotate(self.car_image, self.car.status.angle)
+        rotated = pygame.transform.rotate(self.car_image, self.car.angle)
         rect = rotated.get_rect()
-        self.screen.blit(rotated, self.car.status.position * PPU -
+        self.screen.blit(rotated, self.car.position * PPU -
                          (rect.width / 2, rect.height / 2))
 
         self._draw_battery()
