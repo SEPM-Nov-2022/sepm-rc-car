@@ -7,7 +7,7 @@ from car_model.audio_effect import AudioEffect
 from car_model.car import Car
 from car_model.remote import Remote
 from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, ASSET_DRIVER,
-                       BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X, BATTERY_Y,
+                       ASSET_BACKGROUND, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X, BATTERY_Y,
                        CAR_GAME_CAPTION, CAR_GAME_DIR, DRIVER_SIZE, DRIVER_X,
                        DRIVER_Y, HEIGHT, MAP_MIN_X, MAP_MIN_Y, MAP_MAX_X,
                        MAP_MAX_Y, PPU, TICKS, WIDTH)
@@ -29,7 +29,7 @@ class Game:
 
         self.driver_image = self._load_image(ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
-        self.car = Car(Vector2(2, 2), self.play_audio, self.check_walls)
+        self.car = Car(Vector2(23, 19), self.play_audio, self.check_walls)
         self.remote = Remote(self.notify)
         self.remote.connect_to(self.car)
 
@@ -68,11 +68,16 @@ class Game:
 
     def _draw(self):
         """updates the screen"""
-        self.screen.fill((50, 50, 50))
+        self._draw_background()
         self._draw_car()
         self._draw_driver()
         self._draw_battery()
         pygame.display.flip()
+
+    def _draw_background(self):
+        """Insert map as background"""
+        background = self._load_image(ASSET_BACKGROUND, (1280, 720))
+        self.screen.blit(background, (0, 0))
 
     def _draw_car(self):
         car_image = self._load_image(ASSET_CAR, (50, 25))
