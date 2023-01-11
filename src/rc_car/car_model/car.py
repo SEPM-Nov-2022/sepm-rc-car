@@ -156,11 +156,11 @@ class Car:
 
     def _steer_right(self, game_time):
         """steer right"""
-        self._steer(game_time, -1)
+        self._steer(game_time, -10)
 
     def _steer_left(self, game_time):
         """steer left"""
-        self._steer(game_time, 1)
+        self._steer(game_time, 10)
 
     def _no_steering(self, game_time):
         """no steering"""
