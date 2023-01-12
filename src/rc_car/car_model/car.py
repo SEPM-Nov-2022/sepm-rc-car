@@ -1,18 +1,18 @@
 """Race car model"""
-from math import copysign, degrees, radians, sin
 from datetime import datetime
+from math import copysign, degrees, radians, sin
 from typing import Callable
 
-from pygame import (K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c)
+from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_c, K_h
 from pygame.math import Vector2
+
+from src.rc_car.logging.logger import generate_logger
 
 from .audio_effect import AudioEffect
 from .battery import Battery
-from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
-                        CAR_COLORS, DECELERATION, MAX_ACCELERATION, MAX_STEERING,
-                        MAX_VELOCITY, STEERING_FACTOR)
-
-from src.rc_car.logging.logger import generate_logger
+from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_COLORS,
+                        CAR_LENGTH, DECELERATION, MAX_ACCELERATION,
+                        MAX_STEERING, MAX_VELOCITY, STEERING_FACTOR)
 
 log = generate_logger(name='Race car')
 
@@ -100,7 +100,8 @@ class Car:
 
     def _update_battery(self):
         """use battery"""
-        self.battery.consume(BATTERY_USAGE if self.status['velocity'].x != 0 else 0)
+        self.battery.consume(
+            BATTERY_USAGE if self.status['velocity'].x != 0 else 0)
         if self.battery.is_alert():
             log.warning('Sending a battery alert...')
             self._send_battery_alert()
@@ -108,7 +109,8 @@ class Car:
     def _update(self, game_time):
         """merges all inputs"""
         self.status['velocity'] += (self.status['acceleration'] * game_time, 0)
-        self.status['velocity'].x = max(-MAX_VELOCITY, min(self.status['velocity'].x, MAX_VELOCITY))
+        self.status['velocity'].x = max(-MAX_VELOCITY,
+                                        min(self.status['velocity'].x, MAX_VELOCITY))
 
         if self.status['steering']:
             turning_radius = CAR_LENGTH / sin(radians(self.status['steering']))
@@ -117,7 +119,8 @@ class Car:
             angular_velocity = 0
         log.info(f"The angular velocity is {angular_velocity}.")
 
-        position_change = self.status['velocity'].rotate(-self.status['angle']) * game_time
+        position_change = self.status['velocity'].rotate(
+            -self.status['angle']) * game_time
         if self.check_walls_handler(self.status['position'] + position_change):
             self.status['position'] += position_change
             self.status['angle'] += degrees(angular_velocity) * game_time
@@ -159,7 +162,8 @@ class Car:
 
     def _update_acceleration(self, change: float):
         """limit the acceleration"""
-        self.status['acceleration'] = max(-MAX_ACCELERATION, min(change, MAX_ACCELERATION))
+        self.status['acceleration'] = max(-MAX_ACCELERATION,
+                                          min(change, MAX_ACCELERATION))
 
     def _steer_right(self, game_time):
         """steer right"""
@@ -177,7 +181,8 @@ class Car:
         """updates the steering control"""
         self.status['steering'] = self.status['steering'] + direction * \
             STEERING_FACTOR * game_time if direction != 0 else 0
-        self.status['steering'] = max(-MAX_STEERING, min(self.status['steering'], MAX_STEERING))
+        self.status['steering'] = max(-MAX_STEERING,
+                                      min(self.status['steering'], MAX_STEERING))
 
     def _cicle_color(self):
         now = datetime.now()

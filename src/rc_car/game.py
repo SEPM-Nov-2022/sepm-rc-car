@@ -7,11 +7,11 @@ import pygame
 from car_model.audio_effect import AudioEffect
 from car_model.car import Car
 from car_model.remote import Remote
-from constants import (ASSET_BATTERY, ASSET_CAR, ASSET_DIR, ASSET_DRIVER,
-                       ASSET_BACKGROUND, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X, BATTERY_Y,
-                       CAR_GAME_CAPTION, CAR_GAME_DIR, DRIVER_SIZE, DRIVER_X,
-                       DRIVER_Y, HEIGHT, MAP_MIN_X, MAP_MIN_Y, MAP_MAX_X,
-                       MAP_MAX_Y, PPU, TICKS, WIDTH)
+from constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
+                       ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
+                       BATTERY_Y, CAR_GAME_CAPTION, CAR_GAME_DIR, DRIVER_SIZE,
+                       DRIVER_X, DRIVER_Y, HEIGHT, MAP_MAX_X, MAP_MAX_Y,
+                       MAP_MIN_X, MAP_MIN_Y, PPU, TICKS, WIDTH)
 from pygame.math import Vector2
 
 from src.rc_car.logging.logger import generate_logger
@@ -32,7 +32,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.exit = False
 
-        self.driver_image = self._load_image(ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
+        self.driver_image = self._load_image(
+            ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
         self.battery_bar = pygame.Surface((BATTERY_WIDTH, BATTERY_HEIGHT))
         self.car = Car(Vector2(23, 19), self.play_audio, self.check_walls)
         self.remote = Remote(self.notify)
@@ -46,7 +47,8 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.exit = True
             if can_drive:
-                can_drive = self.remote.command(pygame.key.get_pressed(), self.clock.get_time()/1000)
+                can_drive = self.remote.command(
+                    pygame.key.get_pressed(), self.clock.get_time()/1000)
             self._draw()
             self.clock.tick(TICKS)
 
