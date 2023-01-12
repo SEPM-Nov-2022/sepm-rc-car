@@ -12,22 +12,21 @@ from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_LENGTH,
                         CAR_COLORS, DECELERATION, MAX_ACCELERATION, MAX_STEERING,
                         MAX_VELOCITY, STEERING_FACTOR)
 
+from src.rc_car.logging.logger import generate_logger
+
+log = generate_logger(name='Race car')
+
+
 class Car:
     """it models the rc car"""
 
     def __init__(self,
-                position:Vector2,
-                audio_handler: Callable[[AudioEffect], None],
-                check_walls_handler: Callable[[Vector2],bool]):
+                 position: Vector2,
+                 audio_handler: Callable[[AudioEffect], None],
+                 check_walls_handler: Callable[[Vector2], bool]):
         """initialisation"""
-        self.status = {}
-        self.status['position'] = position
-        self.status['velocity'] = Vector2(0.0, 0.0)
-        self.status['angle'] = 0.0
-        self.status['acceleration'] = 0.0
-        self.status['steering'] = 0.0
-        self.status['color'] = 0
-        self.status['color_change'] = datetime.now()
+        self.status = {'position': position, 'velocity': Vector2(0.0, 0.0), 'angle': 0.0, 'acceleration': 0.0,
+                       'steering': 0.0, 'color': 0, 'color_change': datetime.now()}
 
         self.audio_handler = audio_handler
         self.check_walls_handler = check_walls_handler
@@ -51,7 +50,7 @@ class Car:
 
     @property
     def position(self):
-        """returns the postion"""
+        """returns the position"""
         return self.status['position']
 
     @property
@@ -67,46 +66,56 @@ class Car:
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:
+            log.info('Accelerating...')
             self._accelerate(game_time)
         elif pressed[K_DOWN] and self.battery.battery_level > 0:
+            log.info('Reversing...')
             self._reverse(game_time)
+            log.info('Breaking...')
         elif pressed[K_SPACE]:
             self._brake(game_time)
         else:
+            log.info('Maintain speed...')
             self._no_input(game_time)
 
     def _update_direction(self, pressed, game_time):
         """updates the direction"""
         if pressed[K_RIGHT]:
+            log.info('Steering to the right...')
             self._steer_right(game_time)
         elif pressed[K_LEFT]:
+            log.info('Steering to the left...')
             self._steer_left(game_time)
         else:
+            log.info('Not steering...')
             self._no_steering(game_time)
 
     def _update_misc(self, pressed):
         if pressed[K_h]:
+            log.info('Playing the horn...')
             self._play_the_horn()
         elif pressed[K_c]:
+            log.info('Changing the colour...')
             self._cicle_color()
 
     def _update_battery(self):
         """use battery"""
         self.battery.consume(BATTERY_USAGE if self.status['velocity'].x != 0 else 0)
         if self.battery.is_alert():
+            log.warning('Sending a battery alert...')
             self._send_battery_alert()
 
     def _update(self, game_time):
         """merges all inputs"""
         self.status['velocity'] += (self.status['acceleration'] * game_time, 0)
-        self.status['velocity'].x = max(-MAX_VELOCITY,
-                              min(self.status['velocity'].x, MAX_VELOCITY))
+        self.status['velocity'].x = max(-MAX_VELOCITY, min(self.status['velocity'].x, MAX_VELOCITY))
 
         if self.status['steering']:
             turning_radius = CAR_LENGTH / sin(radians(self.status['steering']))
             angular_velocity = self.status['velocity'].x / turning_radius
         else:
             angular_velocity = 0
+        log.info(f"The angular velocity is {angular_velocity}.")
 
         position_change = self.status['velocity'].rotate(-self.status['angle']) * game_time
         if self.check_walls_handler(self.status['position'] + position_change):
@@ -118,9 +127,8 @@ class Car:
     def _accelerate(self, game_time):
         """acceleration control"""
         self._update_acceleration(
-            BRAKE_DECELERATION \
-                if self.status['velocity'].x < 0 \
-                    else self.status['acceleration'] + game_time)
+            BRAKE_DECELERATION if self.status['velocity'].x < 0 else self.status['acceleration'] + game_time
+        )
 
     def _reverse(self, game_time):
         """acceleration in reverse"""
@@ -149,10 +157,9 @@ class Car:
             else -self.status['velocity'].x / (game_time if game_time != 0 else 1)
         )
 
-    def _update_acceleration(self, change):
+    def _update_acceleration(self, change: float):
         """limit the acceleration"""
-        self.status['acceleration'] = max(-MAX_ACCELERATION,
-                                min(change, MAX_ACCELERATION))
+        self.status['acceleration'] = max(-MAX_ACCELERATION, min(change, MAX_ACCELERATION))
 
     def _steer_right(self, game_time):
         """steer right"""
@@ -174,7 +181,7 @@ class Car:
 
     def _cicle_color(self):
         now = datetime.now()
-        if (now - self.status['color_change']).seconds<1:
+        if (now - self.status['color_change']).seconds < 1:
             return
         self.status['color_change'] = now
         self.status['color'] = self.status['color'] + 1 \

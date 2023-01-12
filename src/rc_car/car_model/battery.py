@@ -3,6 +3,11 @@ from datetime import datetime
 
 from .constants import ALERT_SECS, BATTERY_LOW_ALERT, BATTERY_LEVEL_INIT
 
+from src.rc_car.logging.logger import generate_logger
+
+log = generate_logger(name='Battery level')
+
+
 class Battery:
     """it models the car's battery"""
 
@@ -16,7 +21,7 @@ class Battery:
         """returns the battery level"""
         return self._battery_level
 
-    def consume(self, usage:float):
+    def consume(self, usage: float):
         """consumes the battery"""
         self._battery_level = max(self._battery_level - usage, 0)
 
@@ -25,7 +30,12 @@ class Battery:
         since the last alert has passed"""
         now = datetime.now()
         delta = now - self._last_alert
-        if delta.seconds > ALERT_SECS and self._battery_level < BATTERY_LOW_ALERT:
+
+        time_elapsed = delta.seconds
+        current_battery_level = self._battery_level
+        if time_elapsed > ALERT_SECS and current_battery_level < BATTERY_LOW_ALERT:
             self._last_alert = now
+            log.warning(f"More than {ALERT_SECS} have passed ({time_elapsed}) and the battery level "
+                        f"is {current_battery_level}, i.e., below {BATTERY_LOW_ALERT}%")
             return True
         return False

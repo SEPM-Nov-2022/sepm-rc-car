@@ -1,5 +1,7 @@
 """This file includes the key constants used in the race car game."""
 
+from src.rc_car.utils import get_project_root
+
 ASSET_DIR = 'assets'
 ASSET_CAR = 'car.png'
 ASSET_DRIVER = 'driver.png'
@@ -8,6 +10,11 @@ ASSET_BACKGROUND = 'background.png'
 
 CAR_GAME_CAPTION = 'RC Car'
 CAR_GAME_DIR = '/src/rc_car'
+
+ENV_FILE_NAME = 'environment.yml'
+
+ROOT_DIRECTORY = get_project_root()
+LOG_PATH_AND_FILE = f"{ROOT_DIRECTORY}/src/rc_car/logging/logs.log"
 
 WIDTH = 1280
 HEIGHT = 720

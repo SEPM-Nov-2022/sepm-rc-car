@@ -21,3 +21,9 @@ dependencies:
       - pygame==2.1.2
       - safety
       - -e .
+
+variables:
+  # A relevant logging level is set based on the variable ENV,
+  # i.e., 'DEBUG' for 'dev' (development), 'INFO' for 'test', 'WARNING' for 'uat' (User Acceptance Testing),
+  # 'ERROR' for 'prod'.
+  ENV: prod
