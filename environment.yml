@@ -26,4 +26,10 @@ variables:
   # A relevant logging level is set based on the variable ENV,
   # i.e., 'DEBUG' for 'dev' (development), 'INFO' for 'test', 'WARNING' for 'uat' (User Acceptance Testing),
   # 'ERROR' for 'prod'.
+  #
+  # possible values:
+  # - dev: controller events, ui events, 
+  # - test: sound events, notifications
+  # - uat: battery events
+  # - prod: car unreachable
   ENV: prod
