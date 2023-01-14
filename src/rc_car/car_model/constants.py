@@ -21,4 +21,4 @@ STEERING_FACTOR = 64
 ASSET_HORN = 'horn.mp3'
 ASSET_BATTERY_LOW = 'battery_low.mp3'
 
-CAR_COLORS = [Color(0xff,0,0), Color(0,0xff,0), Color(0,0,0xff)]
+CAR_COLORS = [Color(0xff, 0, 0), Color(0, 0xff, 0), Color(0, 0, 0xff)]
