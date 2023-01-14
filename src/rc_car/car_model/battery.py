@@ -35,7 +35,7 @@ class Battery:
         current_battery_level = self._battery_level
         if time_elapsed > ALERT_SECS and current_battery_level < BATTERY_LOW_ALERT:
             self._last_alert = now
-            log.warning(f"More than {ALERT_SECS} have passed ({time_elapsed}) and the battery level "
-                        f"is {current_battery_level}, i.e., below {BATTERY_LOW_ALERT}%")
+            log.warning('More than %s have passed (%s) and the battery level is %s below %s %%',
+                ALERT_SECS, time_elapsed, current_battery_level, BATTERY_LOW_ALERT)
             return True
         return False

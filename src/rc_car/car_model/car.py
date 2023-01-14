@@ -25,8 +25,13 @@ class Car:
                  audio_handler: Callable[[AudioEffect], None],
                  check_walls_handler: Callable[[Vector2], bool]):
         """initialisation"""
-        self.status = {'position': position, 'velocity': Vector2(0.0, 0.0), 'angle': 0.0, 'acceleration': 0.0,
-                       'steering': 0.0, 'color': 0, 'color_change': datetime.now()}
+        self.status = {'position': position, \
+                       'velocity': Vector2(0.0, 0.0), \
+                       'angle': 0.0, \
+                       'acceleration': 0.0,
+                       'steering': 0.0, \
+                       'color': 0, \
+                       'color_change': datetime.now()}
 
         self.audio_handler = audio_handler
         self.check_walls_handler = check_walls_handler
@@ -117,7 +122,7 @@ class Car:
             angular_velocity = self.status['velocity'].x / turning_radius
         else:
             angular_velocity = 0
-        log.debug(f"The angular velocity is {angular_velocity}.")
+        log.debug('The angular velocity is %s.',angular_velocity)
 
         position_change = self.status['velocity'].rotate(
             -self.status['angle']) * game_time
@@ -130,7 +135,8 @@ class Car:
     def _accelerate(self, game_time):
         """acceleration control"""
         self._update_acceleration(
-            BRAKE_DECELERATION if self.status['velocity'].x < 0 else self.status['acceleration'] + game_time
+            BRAKE_DECELERATION if self.status['velocity'].x < 0 \
+                else self.status['acceleration'] + game_time
         )
 
     def _reverse(self, game_time):

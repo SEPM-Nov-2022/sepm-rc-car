@@ -58,7 +58,7 @@ class Game:
         """play sound"""
         sound = pygame.mixer.Sound(self._from_asset_dir(audio.value.path))
         pygame.mixer.Channel(audio.value.channel).play(sound)
-        log.info(f'Playing sound {audio.value.path}')
+        log.info('Playing sound %s', audio.value.path)
 
     def notify(self, message: str):
         """prints a notification"""
@@ -67,7 +67,8 @@ class Game:
 
     def check_walls(self, next_position):
         """check if the position is allowed"""
-        return MAP_MIN_X <= next_position.x <= MAP_MAX_X and MAP_MIN_Y <= next_position.y <= MAP_MAX_Y
+        return MAP_MIN_X <= next_position.x <= MAP_MAX_X \
+            and MAP_MIN_Y <= next_position.y <= MAP_MAX_Y
 
     def _draw(self):
         """updates the screen"""
