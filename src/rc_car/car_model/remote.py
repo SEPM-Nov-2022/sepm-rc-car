@@ -29,5 +29,5 @@ class Remote:
             return True
         msg = 'The car is unreachable or out of battery'
         self.notification_callback(msg)
-        log.warning(msg)
+        log.error(msg)
         return False

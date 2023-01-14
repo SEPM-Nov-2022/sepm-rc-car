@@ -66,36 +66,36 @@ class Car:
     def _update_speed(self, pressed, game_time):
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:
-            log.info('Accelerating...')
+            log.debug('Accelerating...')
             self._accelerate(game_time)
         elif pressed[K_DOWN] and self.battery.battery_level > 0:
-            log.info('Reversing...')
+            log.debug('Reversing...')
             self._reverse(game_time)
-            log.info('Breaking...')
         elif pressed[K_SPACE]:
+            log.debug('Breaking...')
             self._brake(game_time)
         else:
-            log.info('Maintain speed...')
+            log.debug('Maintain speed...')
             self._no_input(game_time)
 
     def _update_direction(self, pressed, game_time):
         """updates the direction"""
         if pressed[K_RIGHT]:
-            log.info('Steering to the right...')
+            log.debug('Steering to the right...')
             self._steer_right(game_time)
         elif pressed[K_LEFT]:
-            log.info('Steering to the left...')
+            log.debug('Steering to the left...')
             self._steer_left(game_time)
         else:
-            log.info('Not steering...')
+            log.debug('Not steering...')
             self._no_steering(game_time)
 
     def _update_misc(self, pressed):
         if pressed[K_h]:
-            log.info('Playing the horn...')
+            log.debug('Playing the horn...')
             self._play_the_horn()
         elif pressed[K_c]:
-            log.info('Changing the colour...')
+            log.debug('Changing the colour...')
             self._cicle_color()
 
     def _update_battery(self):
@@ -103,7 +103,7 @@ class Car:
         self.battery.consume(
             BATTERY_USAGE if self.status['velocity'].x != 0 else 0)
         if self.battery.is_alert():
-            log.warning('Sending a battery alert...')
+            log.debug('Sending a battery alert...')
             self._send_battery_alert()
 
     def _update(self, game_time):
@@ -117,7 +117,7 @@ class Car:
             angular_velocity = self.status['velocity'].x / turning_radius
         else:
             angular_velocity = 0
-        log.info(f"The angular velocity is {angular_velocity}.")
+        log.debug(f"The angular velocity is {angular_velocity}.")
 
         position_change = self.status['velocity'].rotate(
             -self.status['angle']) * game_time
