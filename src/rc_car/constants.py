@@ -14,7 +14,7 @@ CAR_GAME_DIR = '/src/rc_car'
 ENV_FILE_NAME = 'environment.yml'
 
 ROOT_DIRECTORY = get_project_root()
-LOG_PATH_AND_FILE = f"{ROOT_DIRECTORY}/src/rc_car/logging/logs.log"
+LOG_PATH_AND_FILE = f"{ROOT_DIRECTORY}/rc-car.log"
 
 WIDTH = 1280
 HEIGHT = 720
