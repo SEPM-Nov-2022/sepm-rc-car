@@ -1,8 +1,6 @@
 """
 The purpose of this file is to maintain constants used for logging.
 """
-import os
-
 DATE_TIME_FMT = '%Y-%m-%d %H:%M:%S'
 
 EMPTY_STRING = ''
