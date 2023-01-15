@@ -10,6 +10,7 @@ name = "rc_car"
 description = "This package provides an application for a game to control a race car."
 readme = "README.md"
 requires-python = ">=3.6"
+version = "0.1.0"
 
 [tool.black]
 line-length = 88
