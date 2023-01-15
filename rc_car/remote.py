@@ -1,9 +1,9 @@
 """Remote control"""
 from typing import Callable, Sequence
 
-from src.rc_car.logging.logger import generate_logger
+from logger import generate_logger
 
-from .car import Car
+from car import Car
 
 log = generate_logger(name='Remote')
 

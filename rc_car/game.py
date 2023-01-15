@@ -4,9 +4,9 @@ import os
 from typing import Tuple
 
 import pygame
-from car_model.audio_effect import AudioEffect
-from car_model.car import Car
-from car_model.remote import Remote
+from audio_effect import AudioEffect
+from car import Car
+from remote import Remote
 from constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
                        ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
                        BATTERY_Y, CAR_GAME_CAPTION, CAR_GAME_DIR, DRIVER_SIZE,
@@ -14,7 +14,7 @@ from constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
                        MAP_MIN_X, MAP_MIN_Y, PPU, TICKS, WIDTH)
 from pygame.math import Vector2
 
-from src.rc_car.logging.logger import generate_logger
+from logger import generate_logger
 
 log = generate_logger(name='Race car game')
 

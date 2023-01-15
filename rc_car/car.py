@@ -6,11 +6,11 @@ from typing import Callable
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_c, K_h
 from pygame.math import Vector2
 
-from src.rc_car.logging.logger import generate_logger
+from logger import generate_logger
 
-from .audio_effect import AudioEffect
-from .battery import Battery
-from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_COLORS,
+from audio_effect import AudioEffect
+from battery import Battery
+from constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_COLORS,
                         CAR_LENGTH, DECELERATION, MAX_ACCELERATION,
                         MAX_STEERING, MAX_VELOCITY, STEERING_FACTOR)
 

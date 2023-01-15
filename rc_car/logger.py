@@ -11,13 +11,14 @@ import sys
 
 import yaml
 
-from src.rc_car.constants import ENV_FILE_NAME, LOG_PATH_AND_FILE
-from src.rc_car.utils import get_project_root
+from constants import ENV_FILE_NAME, LOG_PATH_AND_FILE
+from utils import get_project_root
 
-from src.rc_car.logging.constants import DATE_TIME_FMT, EMPTY_STRING, FORMAT_OF_LOG_MSG
+from constants import DATE_TIME_FMT, EMPTY_STRING, FORMAT_OF_LOG_MSG
 
 # Get app's root directory
 ROOT_DIR = str(get_project_root())
+
 # Get the environment's file's directory
 ENV_FILE_DIR = os.path.join(ROOT_DIR, ENV_FILE_NAME)
 
