@@ -2,6 +2,8 @@
 
 from utils import get_project_root
 
+# general constants
+
 ASSET_DIR = '../assets'
 ASSET_CAR = 'car.png'
 ASSET_DRIVER = 'driver.png'
@@ -37,11 +39,8 @@ MAP_MIN_Y = 1
 MAP_MAX_X = 38
 MAP_MAX_Y = 21
 
+# constants used for logging.
 
-
-"""
-The purpose of this file is to maintain constants used for logging.
-"""
 DATE_TIME_FMT = '%Y-%m-%d %H:%M:%S'
 
 EMPTY_STRING = ''
@@ -56,7 +55,7 @@ FORMAT_OF_LOG_MSG = \
     '%(levelname)s %(message)s'
 
 
-"""This file includes the key constants used in modelling a race car."""
+# constants for the race car
 
 from pygame import Color
 

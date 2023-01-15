@@ -4,6 +4,10 @@ from behave import given,when,then # pylint: disable=no-name-in-module
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
 
+from rc_car.audio_effect import AudioEffect
+from rc_car.car import Car
+from rc_car.remote import Remote
+
 @given('the app is connected to the race car and the race car is charged')
 def the_app_is_connected_to_the_race_car_and_the_race_car_is_charged(context):
     """initialise a car and the remote"""
@@ -103,7 +107,6 @@ def the_car_moves_in_that_direction(context):
 
 @then('the car sounds the horn')
 def the_car_sounds_the_horn(context):
-    from rc_car.audio_effect import AudioEffect
     """verify the horn"""
     assert \
         context.audio_handler_calls[len(context.audio_handler_calls)-1] \
@@ -146,9 +149,6 @@ def the_server_is_notified(context):
 
 
 def init(context, battery_is_full:bool):
-    from rc_car.car import Car
-    from rc_car.remote import Remote
-
     """utility method to initialise the car with full/empty battery"""
     def audio_handler(effect):
         context.audio_handler_calls.append(effect)
