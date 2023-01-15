@@ -109,9 +109,8 @@ def the_car_moves_in_that_direction(context):
 def the_car_sounds_the_horn(context):
     """verify the horn"""
     assert \
-        context.audio_handler_calls[len(context.audio_handler_calls)-1] \
-            == AudioEffect.HORN
-
+        context.audio_handler_calls[len(context.audio_handler_calls)-1].value.path\
+            == AudioEffect.HORN.value.path
 
 @then('the car LEDs change colour to the selected scheme')
 def the_car_leds_change_colour_to_the_selected_scheme(context):
@@ -140,7 +139,7 @@ def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_emp
     """verify the notification"""
     assert len(context.notifications) > 0
     assert context.notifications[len(context.notifications)-1] \
-        =='the car is unreachable or out of battery'
+        =='The car is unreachable or out of battery'
 
 
 @then('the server is notified')

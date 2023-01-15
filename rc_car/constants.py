@@ -1,5 +1,5 @@
 """This file includes the key constants used in the race car game."""
-
+from pygame import Color
 from utils import get_project_root
 
 # general constants
@@ -56,8 +56,6 @@ FORMAT_OF_LOG_MSG = \
 
 
 # constants for the race car
-
-from pygame import Color
 
 ALERT_SECS = 5
 
