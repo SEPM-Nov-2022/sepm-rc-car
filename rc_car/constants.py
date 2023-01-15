@@ -9,7 +9,6 @@ ASSET_BATTERY = 'battery.png'
 ASSET_BACKGROUND = 'background.png'
 
 CAR_GAME_CAPTION = 'RC Car'
-CAR_GAME_DIR = '/src/rc_car'
 
 ENV_FILE_NAME = 'environment.yml'
 
