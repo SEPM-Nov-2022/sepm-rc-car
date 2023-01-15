@@ -4,10 +4,9 @@ from behave import given,when,then # pylint: disable=no-name-in-module
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
 
-from src.rc_car.car_model.car import Car
-from src.rc_car.car_model.remote import Remote
-from src.rc_car.car_model.audio_effect import AudioEffect
-
+from rc_car.audio_effect import AudioEffect
+from rc_car.car import Car
+from rc_car.remote import Remote
 
 @given('the app is connected to the race car and the race car is charged')
 def the_app_is_connected_to_the_race_car_and_the_race_car_is_charged(context):

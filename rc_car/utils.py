@@ -12,4 +12,4 @@ def get_project_root() -> Path:
     Returns:
         the path of the project's root directory.
     """
-    return Path(__file__).parent.parent.parent
+    return Path(__file__).parent.parent
