@@ -1,6 +1,8 @@
 """This file includes the key constants used in the race car game."""
 from pygame import Color
-from utils import get_project_root
+import utils
+import os
+from pathlib import Path
 
 # general constants
 
@@ -14,8 +16,13 @@ CAR_GAME_CAPTION = 'RC Car'
 
 ENV_FILE_NAME = 'environment.yml'
 
-ROOT_DIRECTORY = get_project_root()
-LOG_PATH_AND_FILE = f"{ROOT_DIRECTORY}/rc-car.log"
+# Get app's root directory
+ROOT_DIR = str(Path(__file__).parent.parent)
+
+# Get the environment's file's directory
+ENV_FILE_DIR = os.path.join(ROOT_DIR, ENV_FILE_NAME)
+
+LOG_PATH_AND_FILE = f"{ROOT_DIR}/rc-car.log"
 
 WIDTH = 1280
 HEIGHT = 720

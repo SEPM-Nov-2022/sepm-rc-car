@@ -6,31 +6,14 @@ performed and/or warnings/errors occurred throughout it.
 """
 
 import logging
-import os
 import sys
-
-import yaml
 
 from constants import ENV_FILE_NAME, LOG_PATH_AND_FILE, DATE_TIME_FMT,\
                       EMPTY_STRING, FORMAT_OF_LOG_MSG
-from utils import get_project_root
-
-# Get app's root directory
-ROOT_DIR = str(get_project_root())
-
-# Get the environment's file's directory
-ENV_FILE_DIR = os.path.join(ROOT_DIR, ENV_FILE_NAME)
-
-with open(ENV_FILE_DIR, "r", encoding="utf-8") as stream:
-    try:
-        yaml_content_read = yaml.safe_load(stream)
-        environment = yaml_content_read.get('variables')['ENV']
-    except yaml.YAMLError as yaml_except:
-        raise yaml_except
-
+from utils import get_env
 
 def generate_logger(
-        env: str = environment,
+        env: str = get_env('ENV'),
         name: str = EMPTY_STRING
 ):
     """
