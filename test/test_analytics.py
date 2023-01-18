@@ -1,6 +1,6 @@
 import json
 import unittest
-from rc_car.audit import Audit, AuditInput
+from rc_car.analytics import Analytics, AnalyticsInput
 
 class MockOutput:
     def __init__(self):
@@ -9,13 +9,13 @@ class MockOutput:
     def write(self, string):
         self.log.append(string)
 
-class TestAudit(unittest.TestCase):
+class TestAnalytics(unittest.TestCase):
 
     def test_store_input(self):
         output = MockOutput()
-        audit = Audit(output)
+        audit = Analytics(output)
 
-        audit.store_input(AuditInput.steer)
+        audit.store_input(AnalyticsInput.steer)
 
         self.assertEqual(1, len(output.log))
         entry = json.loads(output.log[0])
