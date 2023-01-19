@@ -83,3 +83,9 @@ ASSET_HORN = 'horn.mp3'
 ASSET_BATTERY_LOW = 'battery_low.mp3'
 
 CAR_COLORS = [Color(0xff, 0, 0), Color(0, 0xff, 0), Color(0, 0, 0xff)]
+
+
+# analytics
+
+ANALYTICS_FOLDER = 'analytics'
+ANALYTICS_BASE_FILENAME = 'session_{:10.0f}.log'
