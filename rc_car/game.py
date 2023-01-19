@@ -61,8 +61,7 @@ class Game:
         log.info('Playing sound %s', audio.value.path)
 
     def notify(self, message: str):
-        """prints a notification"""
-        # TODO: add some text in the screen
+        """prints a notification. To add some text in the screen"""
         log.info(message)
 
     def check_walls(self, next_position):
