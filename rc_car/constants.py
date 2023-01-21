@@ -40,9 +40,9 @@ MAP_MIN_Y = 1
 MAP_MAX_X = 38
 MAP_MAX_Y = 21
 
-# constants used for logging.
+# Constants used for logging
 
-DATE_TIME_FMT = '%Y-%m-%d %H:%M:%S'
+DATE_TIME_FMT = '%H:%M:%S'
 
 EMPTY_STRING = ''
 
@@ -51,12 +51,9 @@ EMPTY_STRING = ''
 # the line number at which the log occurs, the log level
 # (e.g., debug/info/warning/error/critical), and
 # the log message.
-FORMAT_OF_LOG_MSG = \
-    '[%(asctime)s %(name)s] (%(filename)s %(lineno)d): ' \
-    '%(levelname)s %(message)s'
+FORMAT_OF_LOG_MSG = '%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s'
 
-
-# constants for the race car
+# Constants for the race car
 
 ALERT_SECS = 5
 
