@@ -162,8 +162,10 @@ def init(context, battery_is_full: bool):
         """TODO, considering 'position' (Vector2) as input arg"""
         return True
 
-    context.pressed = {K_RIGHT: False, K_UP: False, K_LEFT: False, K_DOWN: False, K_SPACE: False, K_h: False,
-                       K_c: False}
+    context.pressed = {
+        K_RIGHT: False, K_UP: False, K_LEFT: False, K_DOWN: False,
+        K_SPACE: False, K_h: False, K_c: False
+    }
     context.audio_handler_calls = []
     context.notifications = []
     context.car = Car(Vector2(0, 0), audio_handler, check_walls_handler)
