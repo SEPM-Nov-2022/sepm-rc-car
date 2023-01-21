@@ -6,10 +6,10 @@ omit =
     */__init__.py
     */constants.py
     rc_car/audio_effect.py
-    rc_car/car.py  # The methods are commands-related overriding the 'Car' class' attributes
-    rc_car/game.py  # The methods are image- and audio-related
+    rc_car/car.py
+    rc_car/game.py
     rc_car/rc_car_launcher.py
-    rc_car/remote.py  # The 'command' method could be unit tested once the docstring and type hints are complete
+    rc_car/remote.py
 
 exclude_lines =
     pragma: no cover

@@ -90,3 +90,15 @@ game.py:19:8: E1101: Module 'pygame' has no 'init' member (no-member)
 game.py:33:33: E1101: Module 'pygame' has no 'QUIT' member (no-member)
 game.py:40:8: E1101: Module 'pygame' has no 'quit' member (no-member)
 ```
+
+## Unit tests
+Unit tests have been implemented under the `tests` folder, which follows the structure of the `rc_car` directory of 
+the source codes.
+
+Once outside the `tests` folder, i.e., in the top-level directory, unit tests can be run via `pytest` and a comprehensive 
+test coverage report with test coverage in percentage (92% as of Jan 21st, 2023) and missing lines can be obtained by 
+executing the following command:
+
+`pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests`
+
+The test coverage reports are included as screenshots under the `docs/test_coverage_reports` folder.
