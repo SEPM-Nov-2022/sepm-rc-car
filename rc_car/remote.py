@@ -3,7 +3,7 @@ from typing import Callable, Sequence
 
 from logger import generate_logger
 
-from car import Car
+from .car import Car
 
 log = generate_logger(name='Remote')
 

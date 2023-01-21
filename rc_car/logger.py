@@ -11,9 +11,9 @@ import sys
 
 import yaml
 
-from constants import ENV_FILE_NAME, LOG_PATH_AND_FILE, DATE_TIME_FMT,\
+from .constants import ENV_FILE_NAME, LOG_PATH_AND_FILE, DATE_TIME_FMT,\
                       EMPTY_STRING, FORMAT_OF_LOG_MSG
-from utils import get_project_root
+from .utils import get_project_root
 
 # Get app's root directory
 ROOT_DIR = str(get_project_root())

@@ -4,10 +4,10 @@ import os
 from typing import Tuple
 
 import pygame
-from audio_effect import AudioEffect
-from car import Car
-from remote import Remote
-from constants import (
+from .audio_effect import AudioEffect
+from .car import Car
+from .remote import Remote
+from .constants import (
     ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
     ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
     BATTERY_Y, CAR_GAME_CAPTION, DRIVER_SIZE, DRIVER_X,
@@ -16,7 +16,7 @@ from constants import (
 )
 from pygame.math import Vector2
 
-from logger import generate_logger
+from .logger import generate_logger
 
 log = generate_logger(name='Race car game')
 
