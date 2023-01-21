@@ -1,7 +1,7 @@
 """Remote control"""
 from typing import Callable, Sequence
 
-from logger import generate_logger
+from .logger import generate_logger
 
 from .car import Car
 

@@ -1,9 +1,8 @@
 """RC car's Battery"""
 from datetime import datetime
 
-from .logger import generate_logger
-
 from .constants import ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT
+from .logger import generate_logger
 
 log = generate_logger(name='Battery level')
 

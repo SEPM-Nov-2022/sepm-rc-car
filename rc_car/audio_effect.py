@@ -1,7 +1,7 @@
 """Define sounds"""
 from enum import Enum
 
-from constants import ASSET_BATTERY_LOW, ASSET_HORN
+from .constants import ASSET_BATTERY_LOW, ASSET_HORN
 
 
 class AudioEffectDef:
