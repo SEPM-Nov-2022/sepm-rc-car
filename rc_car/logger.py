@@ -32,7 +32,7 @@ with open(ENV_FILE_DIR, "r", encoding="utf-8") as stream:
 def generate_logger(
         env: str = environment,
         name: str = EMPTY_STRING
-):
+) -> logging.Logger:
     """
     This function creates a custom logger with the required
     level of log and formatting.
