@@ -74,7 +74,7 @@ launch `./run.sh`
 
 ## Quality checks
 
-launch `./checks.sh` then verify `banding.txt` for security and `pylint.txt` for linting
+Launch `./checks.sh`, then verify `banding.txt` for security and `pylint.txt` for linting
 
 Note: some `pygame`-related errors [may be impossible to fix](https://stackoverflow.com/questions/57116879/how-to-fix-pygame-module-has-no-member-k-right).
 

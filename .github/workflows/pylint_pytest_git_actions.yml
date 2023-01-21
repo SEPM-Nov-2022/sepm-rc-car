@@ -21,6 +21,11 @@ jobs:
         pip install behave==1.2.6
         pip install pygame==2.1.2
         pip install PyYAML
-    - name: pylint analysis whilst disabling no-name-in-module and no-member to avoid false positives
+        pip install pytest
+        pip install pytest-cov
+    - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
-        pylint $(git ls-files '*.py') --disable=E0611,E1101
+        pylint $(git ls-files '*.py') --disable=E0611,E1101,W0212
+    - name: Run unit tests via pytest
+      run: |
+        pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
