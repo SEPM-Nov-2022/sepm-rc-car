@@ -21,7 +21,7 @@ class Remote:
         """connects to a car"""
         self.car = car
 
-    def command(self, pressed: Sequence[bool], game_time):
+    def command(self, pressed: Sequence[bool], game_time) -> bool:
         """interacts with the remote controller"""
         if self.car.handshake_remote():
             if pressed not in self._filter_key:

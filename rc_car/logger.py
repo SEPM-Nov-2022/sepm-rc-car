@@ -53,13 +53,12 @@ def generate_logger(
 
     # Instantiate initial logger and set log level based on
     # the type of environment set in the app's config (.yml
-    # file).
-    if env == 'dev':
-        # In a dev environment, showing/recording only logs
-        # whose level is debug or above
-        # (info, warning, error, and critical)
-        logging_level = logging.DEBUG
-    elif env == 'test':
+    # file). By default (for env = 'dev'), use debug as log level,
+    # i.e., howing/recording only logs whose level is debug or above
+    # (info, warning, error, and critical)
+    logging_level = logging.DEBUG
+
+    if env == 'test':
         # In a test environment, showing/recording only logs
         # whose level is info or above
         # (warning, error, and critical)
