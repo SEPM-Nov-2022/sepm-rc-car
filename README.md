@@ -101,4 +101,6 @@ executing the following command:
 
 `pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests`
 
-The test coverage reports are included as screenshots under the `docs/test_coverage_reports` folder.
+The test coverage, along with linting/quality checks, are run automatically via GitHub Actions for CI/CD as per 
+the pipeline defined at `.github/workflows/pylint_pytest_git_actions.yml`. Thus, the linting and test coverage 
+reports are conveniently and transparently available in the builds directly on GitHub.
