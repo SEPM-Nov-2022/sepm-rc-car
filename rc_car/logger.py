@@ -8,8 +8,8 @@ performed and/or warnings/errors occurred throughout it.
 import logging
 import sys
 
-from constants import ENV_FILE_NAME, LOG_PATH_AND_FILE, DATE_TIME_FMT,\
-                      EMPTY_STRING, FORMAT_OF_LOG_MSG
+from constants import (LOG_PATH_AND_FILE, DATE_TIME_FMT,
+                      EMPTY_STRING, FORMAT_OF_LOG_MSG)
 from utils import get_env
 
 def generate_logger(

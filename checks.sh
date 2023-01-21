@@ -7,4 +7,4 @@ pip3 install bandit
 bandit --ini .bandit -r > bandit.txt
 
 # run pylint
-pylint --extension-pkg-whitelist=pygame rc_car/*.py features/steps/*.py --disable=E0611,E1101 > pylint.txt
+pylint --extension-pkg-whitelist=pygame rc_car/*.py features/steps/*.py > pylint.txt

@@ -1,7 +1,7 @@
 """This file includes the key constants used in the race car game."""
-from pygame import Color
 import os
 from pathlib import Path
+from pygame import Color
 
 # general constants
 
@@ -87,5 +87,7 @@ CAR_COLORS = [Color(0xff, 0, 0), Color(0, 0xff, 0), Color(0, 0, 0xff)]
 
 # analytics
 
+ANALYTICS_SERVER_URL = 'http://127.0.0.1:5000/toy/'
 ANALYTICS_FOLDER = 'analytics'
 ANALYTICS_BASE_FILENAME = 'session_{:10.0f}.log'
+ANALYTICS_SYNC_TIME_DELTA = 60

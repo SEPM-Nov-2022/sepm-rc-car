@@ -1,6 +1,6 @@
 """Remote control"""
 from typing import Callable, Sequence
-from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_c, K_h
+from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
 from logger import generate_logger
 
 from car import Car
@@ -36,12 +36,12 @@ class Remote:
 
     def _store_analytics(self, pressed):
         if pressed[K_LEFT] or pressed[K_RIGHT]:
-            self.analytics.store_input(AnalyticsInput.steer)
+            self.analytics.store_input(AnalyticsInput.STEER)
         if pressed[K_UP]:
-            self.analytics.store_input(AnalyticsInput.accelerate)
+            self.analytics.store_input(AnalyticsInput.ACCELERATE)
         if pressed[K_SPACE]:
-            self.analytics.store_input(AnalyticsInput.brake)
+            self.analytics.store_input(AnalyticsInput.BRAKE)
         if pressed[K_DOWN]:
-            self.analytics.store_input(AnalyticsInput.reverse)
+            self.analytics.store_input(AnalyticsInput.REVERSE)
         if pressed[K_h]:
-            self.analytics.store_input(AnalyticsInput.honk)
+            self.analytics.store_input(AnalyticsInput.HONK)
