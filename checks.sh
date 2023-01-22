@@ -8,3 +8,6 @@ bandit --ini .bandit -r > bandit.txt
 
 # run pylint
 pylint --extension-pkg-whitelist=pygame rc_car/*.py features/steps/*.py --disable=E0401,E0611,E1101,W0212 > pylint.txt
+
+# run coverage
+pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
