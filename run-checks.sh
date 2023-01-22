@@ -7,7 +7,7 @@ pip3 install bandit
 bandit --ini .bandit -r > bandit.txt
 
 # run pylint
-pylint --extension-pkg-whitelist=pygame rc_car/*.py features/steps/*.py > pylint.txt
+pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') > pylint.txt
 
 # run coverage
 pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests

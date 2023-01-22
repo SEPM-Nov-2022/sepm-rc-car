@@ -20,6 +20,10 @@ class Battery:
         """returns the battery level"""
         return self._battery_level
 
+    @battery_level.setter
+    def battery_level(self, battery_level):
+        self._battery_level = battery_level
+
     def consume(self, usage: float):
         """consumes the battery"""
         self._battery_level = max(self._battery_level - usage, 0)

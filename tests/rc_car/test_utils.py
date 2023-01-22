@@ -2,11 +2,7 @@
 
 import unittest
 
-import os
-from pathlib import PosixPath
-
 from rc_car.utils import get_env
-
 
 class TestUtils(unittest.TestCase):
     """Test class for utils.py file"""

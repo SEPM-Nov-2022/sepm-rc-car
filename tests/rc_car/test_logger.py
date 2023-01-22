@@ -16,7 +16,9 @@ class TestLogger(unittest.TestCase):
     def common_logger_checks(self, logger: logging.Logger):
         """Method with common checks for the centralised custom logger"""
         self.assertIsInstance(logger, logging.Logger)
+        # pylint: disable=W0212
         self.assertEqual(logger.handlers[0].formatter._fmt, FORMAT_OF_LOG_MSG)
+
         self.assertEqual(logger.handlers[0].formatter.datefmt, DATE_TIME_FMT)
 
     def test_generate_logger_dev(self):
