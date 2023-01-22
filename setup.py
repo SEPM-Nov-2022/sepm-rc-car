@@ -9,7 +9,7 @@ setup(
     install_requires=[
         "behave==1.2.6",
         "pygame==2.1.2",
-        "flask==2.2.2",
+        "flask",
         "Flask-RESTful==0.3.9",
         "pytest-cov",
         "PyYAML",
