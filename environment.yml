@@ -33,3 +33,4 @@ variables:
   # - uat: battery events
   # - prod: car unreachable
   ENV: prod
+  DEVICE_UUID: 123e4567-e89b-12d3-a456-426614174000

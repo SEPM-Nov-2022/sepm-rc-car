@@ -1,7 +1,7 @@
 """This file includes the key constants used in the race car game."""
+import os
+from pathlib import Path
 from pygame import Color
-
-from .utils import get_project_root
 
 # general constants
 
@@ -15,8 +15,13 @@ CAR_GAME_CAPTION = 'RC Car'
 
 ENV_FILE_NAME = 'environment.yml'
 
-ROOT_DIRECTORY = get_project_root()
-LOG_PATH_AND_FILE = f"{ROOT_DIRECTORY}/rc-car.log"
+# Get app's root directory
+ROOT_DIR = str(Path(__file__).parent.parent)
+
+# Get the environment's file's directory
+ENV_FILE_DIR = os.path.join(ROOT_DIR, ENV_FILE_NAME)
+
+LOG_PATH_AND_FILE = f"{ROOT_DIR}/rc-car.log"
 
 WIDTH = 1280
 HEIGHT = 720
@@ -75,3 +80,11 @@ ASSET_HORN = 'horn.mp3'
 ASSET_BATTERY_LOW = 'battery_low.mp3'
 
 CAR_COLORS = [Color(0xff, 0, 0), Color(0, 0xff, 0), Color(0, 0, 0xff)]
+
+
+# analytics
+
+ANALYTICS_SERVER_URL = 'http://127.0.0.1:5000/toy/'
+ANALYTICS_FOLDER = 'analytics'
+ANALYTICS_BASE_FILENAME = 'session_{:10.0f}.log'
+ANALYTICS_SYNC_TIME_DELTA = 60

@@ -31,7 +31,7 @@ class TestBattery(unittest.TestCase):
 
     def test_is_alert(self):
         """Method to test battery alert"""
-        battery_1._battery_level = 30
+        battery_1.battery_level = 30
         response_alert = battery_1.is_alert()
         self.assertIsInstance(response_alert, bool)
         self.assertEqual(response_alert, False)

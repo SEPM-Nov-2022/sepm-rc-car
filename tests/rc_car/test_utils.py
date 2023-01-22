@@ -2,18 +2,12 @@
 
 import unittest
 
-import os
-from pathlib import PosixPath
-
-from rc_car.utils import get_project_root
-
+from rc_car.utils import get_env
 
 class TestUtils(unittest.TestCase):
     """Test class for utils.py file"""
 
-    def test_get_project_root(self):
+    def test_get_env(self):
         """Test method to ensure the project root is retrieved correctly"""
-        root_path = get_project_root()
-
-        self.assertIsInstance(root_path, PosixPath)
-        self.assertEqual(root_path, PosixPath(os.getcwd().split('tests/rc_car')[0]))
+        self.assertEqual('prod', get_env('ENV'))
+        self.assertEqual('123e4567-e89b-12d3-a456-426614174000', get_env('DEVICE_UUID'))

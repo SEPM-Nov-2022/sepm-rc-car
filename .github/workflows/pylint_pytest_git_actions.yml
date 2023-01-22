@@ -23,9 +23,12 @@ jobs:
         pip install PyYAML
         pip install pytest
         pip install pytest-cov
+        pip install flask==2.2.2
+        pip install requests
+        pip install Flask-RESTful==0.3.9
     - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
-        pylint $(git ls-files '*.py') --disable=E0401,E0611,E1101,W0212
+        pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py')
     - name: Run unit tests via pytest
       run: |
         pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests

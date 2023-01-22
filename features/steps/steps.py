@@ -1,5 +1,5 @@
 """Cucumber steps"""
-from behave import given, when, then
+from behave import given, when, then # pylint: disable=no-name-in-module
 
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
