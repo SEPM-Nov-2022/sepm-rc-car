@@ -1,4 +1,4 @@
-name: Pylint and PyTest
+name: Pylint, PyTest, and Cucumber
 
 on: [push]
 
