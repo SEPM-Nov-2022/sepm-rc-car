@@ -25,7 +25,7 @@ jobs:
         pip install pytest-cov
     - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
-        pylint $(git ls-files '*.py')
+        pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py')
     - name: Run unit tests via pytest
       run: |
         pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
