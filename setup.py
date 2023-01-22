@@ -11,7 +11,9 @@ setup(
         "pygame==2.1.2",
         "flask==2.2.2",
         "Flask-RESTful==0.3.9",
-        "pytest-cov"
+        "pytest-cov",
+        "PyYAML",
+        "requests"
     ],
     python_requires='>=3.6'
 )
