@@ -6,6 +6,7 @@ from typing import Tuple
 import pygame
 from pygame.math import Vector2
 
+from .button import Button
 from .audio_effect import AudioEffect
 from .car import Car
 from .constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
@@ -39,16 +40,53 @@ class Game:
         self.remote = Remote(self.notify)
         self.remote.connect_to(self.car)
 
+        # load button images
+        self.user_1 = self._load_image('user_1.png', (50, 50)).convert_alpha()
+        self.user_2 = self._load_image('user_2.png', (50, 50)).convert_alpha()
+        self.user_3 = self._load_image('user_3.png', (50, 50)).convert_alpha()
+        self.user_4 = self._load_image('user_4.png', (50, 50)).convert_alpha()
+
+        # create button instances
+        self.resume_button = Button(304, 125, self.user_1, 1)
+        self.options_button = Button(297, 250, self.user_2, 1)
+        self.quit_button = Button(336, 375, self.user_3, 1)
+        self.video_button = Button(226, 75, self.user_4, 1)
+
+        # game variables
+        self.game_paused = False
+
+        # define fonts
+        self.font = pygame.font.SysFont("arialblack", 40)
+
+        # define colours
+        self.TEXT_COL = (255, 255, 255)
+
+    def draw_text(text, font, text_col, x, y):
+        img = font.render(text, True, text_col)
+        screen.blit(img, (x, y))
+
     def run(self):
         """main loop"""
         can_drive = True
         while not self.exit:
+            # check if game is paused
+            if self.game_paused:
+                # draw pause screen buttons
+                if self.resume_button.draw(self.screen):
+                    self.game_paused = False
+                if self.options_button.draw(self.screen):
+                    self.game_paused = False
+                if self.quit_button.draw(self.screen):
+                    self.exit = True
             for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m:
+                        self.game_paused = True
                 if event.type == pygame.QUIT:
                     self.exit = True
             if can_drive:
                 can_drive = self.remote.command(
-                    pygame.key.get_pressed(), self.clock.get_time()/1000)
+                    pygame.key.get_pressed(), self.clock.get_time() / 1000)
             self._draw()
             self.clock.tick(TICKS)
 
@@ -105,7 +143,7 @@ class Game:
         self.screen.blit(battery_image_bg, battery_rect_bg,
                          (0, 0, battery_rect_bg.w, battery_rect_bg.h))
         self.screen.blit(battery_image, battery_rect,
-                         (0, 0, battery_rect.w/100*level, battery_rect.h))
+                         (0, 0, battery_rect.w / 100 * level, battery_rect.h))
         # icon
         image_path = self._from_asset_dir(ASSET_BATTERY)
         battery_image = pygame.transform.scale(
