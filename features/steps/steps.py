@@ -1,5 +1,5 @@
 """Cucumber steps"""
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from behave import given, when, then # pylint: disable=no-name-in-module
 
@@ -11,8 +11,10 @@ from rc_car.car import Car
 from rc_car.remote import Remote
 
 class MockAnalyticsStorage:
+    """mock the storage"""
 
     def __init__(self):
+        """builds the instance"""
         self._called_write = 0
 
     def write(self, _):
@@ -49,8 +51,8 @@ def the_user_has_validated_parental_control_credentials():
 
 
 @given('the server is online')
-def the_server_is_online(context):
-    pass
+def the_server_is_online(_):
+    """dummy method"""
 
 
 @when('the user pushes a direction')
@@ -61,6 +63,7 @@ def the_user_pushes_a_direction(context):
 
 @when('the user selects a LED colour scheme')
 def the_user_selects_a_led_colour_scheme(context):
+    """trigger a color change"""
     context.car.status['color_change'] = datetime(2023, 1, 1)
     push_button(context, K_c)
 
@@ -103,6 +106,7 @@ def a_picture_is_uploaded():
 
 @when('the app is online')
 def the_app_is_online(context):
+    """triggers one command to connect"""
     push_button(context, K_UP)
 
 
@@ -133,11 +137,13 @@ def the_car_sounds_the_horn(context):
 
 @then('the car LEDs change colour to the selected scheme')
 def the_car_leds_change_colour_to_the_selected_scheme(context):
+    """verify that the colour was updated"""
     assert context.car.status['color'] == 1
 
 
 @then('the {text} is updated in the app')
 def the_option_is_updated_in_the_app(context, text):
+    """checks the current value of the option"""
     if text == 'colour scheme':
         assert context.car.status['color_change'] != 0
 
@@ -162,6 +168,7 @@ def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_emp
 
 @then('the server is notified')
 def the_server_is_notified(context):
+    """checks calls to the mock storage as a proxy for the remote server"""
     assert context.mock_storage.called_write > 0
 
 
@@ -178,8 +185,13 @@ def init(context, battery_is_full: bool):
         return True
 
     context.pressed = {
-        K_RIGHT: False, K_UP: False, K_LEFT: False, K_DOWN: False,
-        K_SPACE: False, K_h: False, K_c: False
+        K_RIGHT: False,
+        K_UP: False,
+        K_LEFT: False,
+        K_DOWN: False,
+        K_SPACE: False,
+        K_h: False,
+        K_c: False
     }
     context.audio_handler_calls = []
     context.notifications = []
