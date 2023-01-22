@@ -113,7 +113,11 @@ class Game:
         self._draw_car()
         self._draw_driver()
         self._draw_battery()
+        self._draw_buttons()
         pygame.display.flip()
+
+    def _draw_buttons(self):
+        self.screen.blit(self.user_1, (9,9))
 
     def _draw_background(self):
         """Insert map as background"""
