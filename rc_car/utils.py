@@ -3,7 +3,7 @@ The purpose of this file is to maintain utility-based functions used
 throughout the application.
 """
 import yaml
-from constants import ENV_FILE_DIR
+from .constants import ENV_FILE_DIR
 
 def get_env(variable_name:str) -> str:
     """utility to get one env value"""

@@ -7,9 +7,9 @@ from enum import Enum
 
 import requests
 
-from constants import (ANALYTICS_FOLDER, ANALYTICS_BASE_FILENAME,
+from .constants import (ANALYTICS_FOLDER, ANALYTICS_BASE_FILENAME,
                        ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA)
-from utils import get_env
+from .utils import get_env
 
 class AnalyticsInput(Enum):
     """Enum listing the input types"""

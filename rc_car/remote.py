@@ -1,10 +1,10 @@
 """Remote control"""
 from typing import Callable, Sequence
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
-from logger import generate_logger
+from .logger import generate_logger
 
-from car import Car
-from analytics import Analytics,AnalyticsInput,AnalyticsStorage
+from .car import Car
+from .analytics import Analytics,AnalyticsInput,AnalyticsStorage
 
 log = generate_logger(name='Remote')
 
@@ -22,7 +22,7 @@ class Remote:
         """connects to a car"""
         self.car = car
 
-    def command(self, pressed: Sequence[bool], game_time):
+    def command(self, pressed: Sequence[bool], game_time) -> bool:
         """interacts with the remote controller"""
         if self.car.handshake_remote():
             if pressed not in self._filter_key:

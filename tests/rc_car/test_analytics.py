@@ -1,6 +1,6 @@
 import json
 import unittest
-from rc_car.analytics import Analytics, AnalyticsInput, AnalyticsStorage, ANALYTICS_FOLDER
+from rc_car.analytics import Analytics, AnalyticsInput
 
 class MockOutput:
     def __init__(self):
@@ -15,7 +15,7 @@ class TestAnalytics(unittest.TestCase):
         output = MockOutput()
         audit = Analytics(output)
 
-        audit.store_input(AnalyticsInput.steer)
+        audit.store_input(AnalyticsInput.STEER)
         self.assertEqual(1, len(output.log))
         entry = json.loads(output.log[0])
         self.assertEqual('123e4567-e89b-12d3-a456-426614174000', entry['deviceId'])
