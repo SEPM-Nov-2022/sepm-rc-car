@@ -117,6 +117,7 @@ class Game:
         pygame.display.flip()
 
     def _draw_buttons(self):
+        # if it's menu mode on...
         self.screen.blit(self.user_1, (9,9))
 
     def _draw_background(self):
