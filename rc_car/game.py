@@ -6,14 +6,16 @@ from typing import Tuple
 import pygame
 from pygame.math import Vector2
 
-from .button import Button
+from .menu_item import MenuItem
 from .audio_effect import AudioEffect
 from .car import Car
 from .constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
                         ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
                         BATTERY_Y, CAR_GAME_CAPTION, DRIVER_SIZE, DRIVER_X,
                         DRIVER_Y, HEIGHT, MAP_MAX_X, MAP_MAX_Y, MAP_MIN_X,
-                        MAP_MIN_Y, PPU, TICKS, WIDTH)
+                        MAP_MIN_Y, PPU, TICKS, WIDTH, USER_1, USER_2, USER_3, USER_4,
+                        MENU_HEADLINE, MENU_BACKGROUND_COLOUR, MENU_BG_LEFT, MENU_BG_TOP,
+                        MENU_WIDTH, MENU_HEIGHT, MENU_X, MENU_Y, MENU_ITEM_IMAGE_SIZE)
 from .logger import generate_logger
 from .remote import Remote
 
@@ -40,30 +42,28 @@ class Game:
         self.remote = Remote(self.notify)
         self.remote.connect_to(self.car)
 
-        # load button images
-        self.user_1 = self._load_image('user_1.png', (50, 50)).convert_alpha()
-        self.user_2 = self._load_image('user_2.png', (50, 50)).convert_alpha()
-        self.user_3 = self._load_image('user_3.png', (50, 50)).convert_alpha()
-        self.user_4 = self._load_image('user_4.png', (50, 50)).convert_alpha()
+        # Load menu images (user profile pics)
+        self.user_1 = self._load_image(USER_1, (MENU_ITEM_IMAGE_SIZE,
+                                                MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+        self.user_2 = self._load_image(USER_2, (MENU_ITEM_IMAGE_SIZE,
+                                                MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+        self.user_3 = self._load_image(USER_3, (MENU_ITEM_IMAGE_SIZE,
+                                                MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+        self.user_4 = self._load_image(USER_4, (MENU_ITEM_IMAGE_SIZE,
+                                                MENU_ITEM_IMAGE_SIZE)).convert_alpha()
 
-        # create button instances
-        self.resume_button = Button(304, 125, self.user_1, 1)
-        self.options_button = Button(297, 250, self.user_2, 1)
-        self.quit_button = Button(336, 375, self.user_3, 1)
-        self.video_button = Button(226, 75, self.user_4, 1)
+        # Create menu item instances
+        self.user_1 = MenuItem(615, 150, self.user_1, 1)
+        self.user_2 = MenuItem(615, 250, self.user_2, 1)
+        self.user_3 = MenuItem(615, 350, self.user_3, 1)
+        self.user_4 = MenuItem(615, 450, self.user_4, 1)
 
         # game variables
         self.game_paused = False
 
-        # define fonts
-        self.font = pygame.font.SysFont("arialblack", 40)
-
-        # define colours
-        self.TEXT_COL = (255, 255, 255)
-
-    def draw_text(text, font, text_col, x, y):
-        img = font.render(text, True, text_col)
-        screen.blit(img, (x, y))
+        # Font name, size and colour
+        self.font = pygame.font.SysFont("arialblack", 20)
+        self.text_colour = (0, 0, 0)
 
     def run(self):
         """main loop"""
@@ -78,7 +78,10 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_m:
-                        self.game_paused = True
+                        if not self.game_paused:
+                            self.game_paused = True
+                        else:
+                            self.game_paused = False
                 if event.type == pygame.QUIT:
                     self.exit = True
 
@@ -110,18 +113,36 @@ class Game:
         self._draw_menu()
         pygame.display.flip()
 
+    def _draw_text(self, text, font, x_pos, y_pos):
+        img = font.render(text, True, self.text_colour)
+        self.screen.blit(img, (x_pos, y_pos))
+
     def _draw_menu(self):
-        # check if game is paused
+        # Check if game is paused
         if self.game_paused:
-            # draw pause screen buttons
-            if self.resume_button.draw(self.screen):
+            # Add menu background
+            pygame.draw.rect(self.screen, MENU_BACKGROUND_COLOUR,
+                             pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
+                                         MENU_WIDTH, MENU_HEIGHT))
+            # Draw menu headline
+            self._draw_text(MENU_HEADLINE, self.font, MENU_X, MENU_Y)
+            # Draw user profile pictures
+            if self.user_1.draw(self.screen):
                 self.driver_image = self._load_image(
-                    'user_1.png', (DRIVER_SIZE, DRIVER_SIZE))
+                    USER_1, (DRIVER_SIZE, DRIVER_SIZE))
                 self.game_paused = False
-            if self.options_button.draw(self.screen):
+            if self.user_2.draw(self.screen):
+                self.driver_image = self._load_image(
+                    USER_2, (DRIVER_SIZE, DRIVER_SIZE))
                 self.game_paused = False
-            if self.quit_button.draw(self.screen):
-                self.exit = True
+            if self.user_3.draw(self.screen):
+                self.driver_image = self._load_image(
+                    USER_3, (DRIVER_SIZE, DRIVER_SIZE))
+                self.game_paused = False
+            if self.user_4.draw(self.screen):
+                self.driver_image = self._load_image(
+                    USER_4, (DRIVER_SIZE, DRIVER_SIZE))
+                self.game_paused = False
 
     def _draw_background(self):
         """Insert map as background"""
