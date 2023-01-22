@@ -11,9 +11,9 @@ import sys
 
 import yaml
 
-from constants import ENV_FILE_NAME, LOG_PATH_AND_FILE, DATE_TIME_FMT,\
-                      EMPTY_STRING, FORMAT_OF_LOG_MSG
-from utils import get_project_root
+from .constants import (DATE_TIME_FMT, EMPTY_STRING, ENV_FILE_NAME,
+                        FORMAT_OF_LOG_MSG, LOG_PATH_AND_FILE)
+from .utils import get_project_root
 
 # Get app's root directory
 ROOT_DIR = str(get_project_root())
@@ -32,7 +32,7 @@ with open(ENV_FILE_DIR, "r", encoding="utf-8") as stream:
 def generate_logger(
         env: str = environment,
         name: str = EMPTY_STRING
-):
+) -> logging.Logger:
     """
     This function creates a custom logger with the required
     level of log and formatting.
@@ -53,13 +53,12 @@ def generate_logger(
 
     # Instantiate initial logger and set log level based on
     # the type of environment set in the app's config (.yml
-    # file).
-    if env == 'dev':
-        # In a dev environment, showing/recording only logs
-        # whose level is debug or above
-        # (info, warning, error, and critical)
-        logging_level = logging.DEBUG
-    elif env == 'test':
+    # file). By default (for env = 'dev'), use debug as log level,
+    # i.e., howing/recording only logs whose level is debug or above
+    # (info, warning, error, and critical)
+    logging_level = logging.DEBUG
+
+    if env == 'test':
         # In a test environment, showing/recording only logs
         # whose level is info or above
         # (warning, error, and critical)

@@ -6,13 +6,12 @@ from typing import Callable
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_c, K_h
 from pygame.math import Vector2
 
-from logger import generate_logger
-
-from audio_effect import AudioEffect
-from battery import Battery
-from constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_COLORS,
+from .audio_effect import AudioEffect
+from .battery import Battery
+from .constants import (BATTERY_USAGE, BRAKE_DECELERATION, CAR_COLORS,
                         CAR_LENGTH, DECELERATION, MAX_ACCELERATION,
                         MAX_STEERING, MAX_VELOCITY, STEERING_FACTOR)
+from .logger import generate_logger
 
 log = generate_logger(name='Race car')
 
@@ -25,12 +24,12 @@ class Car:
                  audio_handler: Callable[[AudioEffect], None],
                  check_walls_handler: Callable[[Vector2], bool]):
         """initialisation"""
-        self.status = {'position': position, \
-                       'velocity': Vector2(0.0, 0.0), \
-                       'angle': 0.0, \
+        self.status = {'position': position,
+                       'velocity': Vector2(0.0, 0.0),
+                       'angle': 0.0,
                        'acceleration': 0.0,
-                       'steering': 0.0, \
-                       'color': 0, \
+                       'steering': 0.0,
+                       'color': 0,
                        'color_change': datetime.now()}
 
         self.audio_handler = audio_handler
@@ -122,7 +121,7 @@ class Car:
             angular_velocity = self.status['velocity'].x / turning_radius
         else:
             angular_velocity = 0
-        log.debug('The angular velocity is %s.',angular_velocity)
+        log.debug('The angular velocity is %s.', angular_velocity)
 
         position_change = self.status['velocity'].rotate(
             -self.status['angle']) * game_time
@@ -135,8 +134,8 @@ class Car:
     def _accelerate(self, game_time):
         """acceleration control"""
         self._update_acceleration(
-            BRAKE_DECELERATION if self.status['velocity'].x < 0 \
-                else self.status['acceleration'] + game_time
+            BRAKE_DECELERATION if self.status['velocity'].x < 0
+            else self.status['acceleration'] + game_time
         )
 
     def _reverse(self, game_time):

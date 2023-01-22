@@ -1,0 +1,15 @@
+[run]
+source = rc_car
+
+[report]
+omit =
+    */__init__.py
+    */constants.py
+    rc_car/audio_effect.py
+    rc_car/car.py
+    rc_car/game.py
+    rc_car/rc_car_launcher.py
+    rc_car/remote.py
+
+exclude_lines =
+    pragma: no cover

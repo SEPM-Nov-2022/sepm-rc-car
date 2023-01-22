@@ -1,9 +1,8 @@
 """RC car's Battery"""
 from datetime import datetime
 
-from logger import generate_logger
-
-from constants import ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT
+from .constants import ALERT_SECS, BATTERY_LEVEL_INIT, BATTERY_LOW_ALERT
+from .logger import generate_logger
 
 log = generate_logger(name='Battery level')
 
@@ -35,7 +34,9 @@ class Battery:
         current_battery_level = self._battery_level
         if time_elapsed > ALERT_SECS and current_battery_level < BATTERY_LOW_ALERT:
             self._last_alert = now
-            log.warning('More than %s have passed (%s) and the battery level is %s below %s %%',
-                ALERT_SECS, time_elapsed, current_battery_level, BATTERY_LOW_ALERT)
+            log.warning(
+                'More than %s have passed (%s) and the battery level is %s below %s %%',
+                ALERT_SECS, time_elapsed, current_battery_level, BATTERY_LOW_ALERT
+            )
             return True
         return False

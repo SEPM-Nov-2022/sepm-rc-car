@@ -8,7 +8,8 @@ setup(
     packages=find_packages(exclude=['features', 'docs']),
     install_requires=[
         "behave==1.2.6",
-        "pygame==2.1.2"
+        "pygame==2.1.2",
+        "pytest-cov"
     ],
     python_requires='>=3.6'
 )

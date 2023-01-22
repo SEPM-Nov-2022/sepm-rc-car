@@ -1,6 +1,6 @@
 """Launcher of the race car game"""
 
-from game import Game
+from .game import Game
 
 if __name__ == '__main__':
     game = Game()
