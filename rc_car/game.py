@@ -69,26 +69,20 @@ class Game:
         """main loop"""
         can_drive = True
         while not self.exit:
-            # check if game is paused
-            if self.game_paused:
-                # draw pause screen buttons
-                if self.resume_button.draw(self.screen):
-                    self.game_paused = False
-                if self.options_button.draw(self.screen):
-                    self.game_paused = False
-                if self.quit_button.draw(self.screen):
-                    self.exit = True
+            if can_drive:
+                can_drive = self.remote.command(
+                    pygame.key.get_pressed(), self.clock.get_time() / 1000)
+            self._draw()
+            self.clock.tick(TICKS)
+
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_m:
                         self.game_paused = True
                 if event.type == pygame.QUIT:
                     self.exit = True
-            if can_drive:
-                can_drive = self.remote.command(
-                    pygame.key.get_pressed(), self.clock.get_time() / 1000)
-            self._draw()
-            self.clock.tick(TICKS)
+
+            pygame.display.update()
 
         pygame.quit()
 
@@ -113,7 +107,21 @@ class Game:
         self._draw_car()
         self._draw_driver()
         self._draw_battery()
+        self._draw_menu()
         pygame.display.flip()
+
+    def _draw_menu(self):
+        # check if game is paused
+        if self.game_paused:
+            # draw pause screen buttons
+            if self.resume_button.draw(self.screen):
+                self.driver_image = self._load_image(
+                    'user_1.png', (DRIVER_SIZE, DRIVER_SIZE))
+                self.game_paused = False
+            if self.options_button.draw(self.screen):
+                self.game_paused = False
+            if self.quit_button.draw(self.screen):
+                self.exit = True
 
     def _draw_background(self):
         """Insert map as background"""
