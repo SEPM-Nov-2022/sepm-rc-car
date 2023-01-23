@@ -1,4 +1,4 @@
-name: Pylint and PyTest
+name: Pylint, PyTest, and Cucumber
 
 on: [push]
 
@@ -32,3 +32,6 @@ jobs:
     - name: Run unit tests via pytest
       run: |
         pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
+    - name: Run cucumber
+      run: |
+        behave
