@@ -1,5 +1,6 @@
 """This file includes the functionalities of a menu item"""
 import pygame
+from pygame import Surface
 
 
 # Menu Item Class
@@ -17,11 +18,11 @@ class MenuItem:
         self.clicked = False
         self._filename = filename
 
-    def draw(self, surface):
+    def draw(self, surface:Surface) -> None:
         """Creates menu items, i.e. user's pictures"""
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
-    def is_selected(self):
+    def is_selected(self) -> bool:
         """Detects mouse selection"""
         action = False
         # get mouse position

@@ -5,6 +5,7 @@ from typing import Tuple
 
 import pygame
 from pygame import Surface
+from pygame.font import Font
 from pygame.math import Vector2
 
 from .menu_item import MenuItem
@@ -43,32 +44,38 @@ class Game:
         self.remote.connect_to(self.car)
 
         # Load menu images (user profile pics)
-        icon_filenames = [USER_1, USER_2, USER_3, USER_4]
-        self.user_buttons = []
-        for i, icon_filename in enumerate(icon_filenames):
+        self.driver_buttons = []
+        for i, icon_filename in enumerate([USER_1, USER_2, USER_3, USER_4]):
             button = self._load_image(icon_filename, (MENU_ITEM_IMAGE_SIZE,
-                                                MENU_ITEM_IMAGE_SIZE)).convert_alpha()
-            self.user_buttons.append(MenuItem(615, 150 + i * 100, button, icon_filename))
-        self.game_paused = False
+                                      MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+            self.driver_buttons.append(MenuItem(615, 150 + i * 100, button, icon_filename))
 
     def run(self):
         """main loop"""
         can_drive = True
         exit_game = False
+        game_paused = False
         clock = pygame.time.Clock()
         while not exit_game:
-            if can_drive:
+            if can_drive and not game_paused:
                 can_drive = self.remote.command(
                     pygame.key.get_pressed(), clock.get_time() / 1000)
-            self._draw()
+            self._draw(game_paused)
             clock.tick(TICKS)
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_m:
-                        self.game_paused = not self.game_paused
+                        game_paused = not game_paused
                 if event.type == pygame.QUIT:
                     exit_game = True
+
+            if game_paused:
+                for driver_button in self.driver_buttons:
+                    if driver_button.is_selected():
+                        self.driver_image = self._load_image(
+                            driver_button.filename, (DRIVER_SIZE, DRIVER_SIZE))
+                        game_paused = False
 
         pygame.quit()
 
@@ -87,13 +94,14 @@ class Game:
         return MAP_MIN_X <= next_position.x <= MAP_MAX_X \
             and MAP_MIN_Y <= next_position.y <= MAP_MAX_Y
 
-    def _draw(self):
+    def _draw(self, game_paused):
         """updates the screen"""
         self._draw_background()
         self._draw_car()
         self._draw_driver()
         self._draw_battery()
-        self._draw_menu()
+        if game_paused:
+            self._draw_menu()
         pygame.display.flip()
 
     def _draw_background(self):
@@ -131,25 +139,19 @@ class Game:
             pygame.image.load(image_path), (16, 12))
         self.screen.blit(battery_image, Vector2(BATTERY_X - 25, BATTERY_Y + 5))
 
-    def _draw_menu(self):
-        # Check if game is paused
-        if self.game_paused:
-            # Add menu background
-            pygame.draw.rect(self.screen, MENU_BACKGROUND_COLOUR,
-                             pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
-                                         MENU_WIDTH, MENU_HEIGHT))
-            # Draw menu headline
-            font = pygame.font.SysFont(MENU_FONT, MENU_FONT_SIZE)
-            self._draw_text(MENU_HEADLINE, font, MENU_X, MENU_Y)
-            # Draw user profile pictures
-            for user_button in self.user_buttons:
-                user_button.draw(self.screen)
-                if user_button.is_selected():
-                    self.driver_image = self._load_image(
-                        user_button.filename, (DRIVER_SIZE, DRIVER_SIZE))
-                    self.game_paused = False
+    def _draw_menu(self) -> None:
+        # Add menu background
+        pygame.draw.rect(self.screen, MENU_BACKGROUND_COLOUR,
+                            pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
+                                        MENU_WIDTH, MENU_HEIGHT))
+        # Draw menu headline
+        font = pygame.font.SysFont(MENU_FONT, MENU_FONT_SIZE)
+        self._draw_text(MENU_HEADLINE, font, MENU_X, MENU_Y)
+        # Draw user profile pictures
+        for driver_button in self.driver_buttons:
+            driver_button.draw(self.screen)
 
-    def _draw_text(self, text, font, x_pos, y_pos):
+    def _draw_text(self, text:str, font:Font, x_pos:int, y_pos:int) -> None:
         img = font.render(text, True,  (0, 0, 0))
         self.screen.blit(img, (x_pos, y_pos))
 
