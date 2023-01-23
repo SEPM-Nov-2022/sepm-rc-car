@@ -4,15 +4,21 @@ import os
 from typing import Tuple
 
 import pygame
+from pygame import Surface
+from pygame.font import Font
 from pygame.math import Vector2
 
+from .menu_item import MenuItem
 from .audio_effect import AudioEffect
 from .car import Car
 from .constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
                         ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
                         BATTERY_Y, CAR_GAME_CAPTION, DRIVER_SIZE, DRIVER_X,
                         DRIVER_Y, HEIGHT, MAP_MAX_X, MAP_MAX_Y, MAP_MIN_X,
-                        MAP_MIN_Y, PPU, TICKS, WIDTH)
+                        MAP_MIN_Y, PPU, TICKS, WIDTH, USER_1, USER_2, USER_3, USER_4,
+                        MENU_HEADLINE, MENU_BACKGROUND_COLOUR, MENU_BG_LEFT, MENU_BG_TOP,
+                        MENU_WIDTH, MENU_HEIGHT, MENU_X, MENU_Y, MENU_ITEM_IMAGE_SIZE,
+                        MENU_FONT, MENU_FONT_SIZE)
 from .logger import generate_logger
 from .remote import Remote
 
@@ -29,8 +35,6 @@ class Game:
         pygame.mixer.init()
         pygame.display.set_caption(CAR_GAME_CAPTION)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.clock = pygame.time.Clock()
-        self.exit = False
 
         self.driver_image = self._load_image(
             ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
@@ -39,18 +43,39 @@ class Game:
         self.remote = Remote(self.notify)
         self.remote.connect_to(self.car)
 
+        # Load menu images (user profile pics)
+        self.driver_buttons = []
+        for i, icon_filename in enumerate([USER_1, USER_2, USER_3, USER_4]):
+            button = self._load_image(icon_filename, (MENU_ITEM_IMAGE_SIZE,
+                                      MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+            self.driver_buttons.append(MenuItem(615, 150 + i * 100, button, icon_filename))
+
     def run(self):
         """main loop"""
         can_drive = True
-        while not self.exit:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit = True
-            if can_drive:
+        exit_game = False
+        game_paused = False
+        clock = pygame.time.Clock()
+        while not exit_game:
+            if can_drive and not game_paused:
                 can_drive = self.remote.command(
-                    pygame.key.get_pressed(), self.clock.get_time()/1000)
-            self._draw()
-            self.clock.tick(TICKS)
+                    pygame.key.get_pressed(), clock.get_time() / 1000)
+            self._draw(game_paused)
+            clock.tick(TICKS)
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m:
+                        game_paused = not game_paused
+                if event.type == pygame.QUIT:
+                    exit_game = True
+
+            if game_paused:
+                for driver_button in self.driver_buttons:
+                    if driver_button.is_selected():
+                        self.driver_image = self._load_image(
+                            driver_button.filename, (DRIVER_SIZE, DRIVER_SIZE))
+                        game_paused = False
 
         pygame.quit()
 
@@ -69,12 +94,14 @@ class Game:
         return MAP_MIN_X <= next_position.x <= MAP_MAX_X \
             and MAP_MIN_Y <= next_position.y <= MAP_MAX_Y
 
-    def _draw(self):
+    def _draw(self, game_paused):
         """updates the screen"""
         self._draw_background()
         self._draw_car()
         self._draw_driver()
         self._draw_battery()
+        if game_paused:
+            self._draw_menu()
         pygame.display.flip()
 
     def _draw_background(self):
@@ -105,12 +132,28 @@ class Game:
         self.screen.blit(battery_image_bg, battery_rect_bg,
                          (0, 0, battery_rect_bg.w, battery_rect_bg.h))
         self.screen.blit(battery_image, battery_rect,
-                         (0, 0, battery_rect.w/100*level, battery_rect.h))
+                         (0, 0, battery_rect.w / 100 * level, battery_rect.h))
         # icon
         image_path = self._from_asset_dir(ASSET_BATTERY)
         battery_image = pygame.transform.scale(
             pygame.image.load(image_path), (16, 12))
         self.screen.blit(battery_image, Vector2(BATTERY_X - 25, BATTERY_Y + 5))
+
+    def _draw_menu(self) -> None:
+        # Add menu background
+        pygame.draw.rect(self.screen, MENU_BACKGROUND_COLOUR,
+                            pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
+                                        MENU_WIDTH, MENU_HEIGHT))
+        # Draw menu headline
+        font = pygame.font.SysFont(MENU_FONT, MENU_FONT_SIZE)
+        self._draw_text(MENU_HEADLINE, font, MENU_X, MENU_Y)
+        # Draw user profile pictures
+        for driver_button in self.driver_buttons:
+            driver_button.draw(self.screen)
+
+    def _draw_text(self, text:str, font:Font, x_pos:int, y_pos:int) -> None:
+        img = font.render(text, True,  (0, 0, 0))
+        self.screen.blit(img, (x_pos, y_pos))
 
     def _create_battery_bar_bg(self):
         """creates the battery bar"""
@@ -138,7 +181,7 @@ class Game:
             topleft=(BATTERY_X, BATTERY_Y))
         return battery_rect, battery_image
 
-    def _load_image(self, asset: str, size: Tuple[int, int]):
+    def _load_image(self, asset: str, size: Tuple[int, int]) -> Surface:
         image_path = self._from_asset_dir(asset)
         return pygame.transform.scale(pygame.image.load(image_path), size)
 

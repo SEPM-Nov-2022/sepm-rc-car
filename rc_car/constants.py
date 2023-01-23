@@ -11,6 +11,25 @@ ASSET_DRIVER = 'driver.png'
 ASSET_BATTERY = 'battery.png'
 ASSET_BACKGROUND = 'background.png'
 
+# User profile pictures
+USER_1 = 'user_1.png'
+USER_2 = 'user_2.png'
+USER_3 = 'user_3.png'
+USER_4 = 'user_4.png'
+
+# Menu constants
+MENU_HEADLINE = 'Choose your profile picture'
+MENU_BACKGROUND_COLOUR = (255, 255, 255)
+MENU_BG_LEFT = 440
+MENU_BG_TOP = 70
+MENU_WIDTH = 400
+MENU_HEIGHT = 500
+MENU_X = 490
+MENU_Y = 80
+MENU_ITEM_IMAGE_SIZE = 50
+MENU_FONT = 'arialblack'
+MENU_FONT_SIZE = 20
+
 CAR_GAME_CAPTION = 'RC Car'
 
 ENV_FILE_NAME = 'environment.yml'

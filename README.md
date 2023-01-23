@@ -104,3 +104,9 @@ executing the following command:
 The test coverage, along with linting/quality checks, are run automatically via GitHub Actions for CI/CD as per 
 the pipeline defined at `.github/workflows/pylint_pytest_git_actions.yml`. Thus, the linting and test coverage 
 reports are conveniently and transparently available in the builds directly on GitHub.
+
+
+## Reference list
+App Of The Day. (n.d.). Race It! - 2D Racing Game. Available from: https://appoftheday.downloadastro.com/app/race-it-2d-racing-game/ [Accessed 12 Jan. 2023].
+
+Freepik. (n.d.). Free Vector | Profile icons pack in hand drawn style. Available from: https://www.freepik.com/free-vector/profile-icons-pack-hand-drawn-style_18156023.htm [Accessed 22 Jan. 2023].
