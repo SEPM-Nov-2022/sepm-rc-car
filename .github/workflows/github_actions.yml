@@ -1,4 +1,4 @@
-name: Pylint, PyTest, and Cucumber
+name: CI/CD pipeline
 
 on: [push]
 
