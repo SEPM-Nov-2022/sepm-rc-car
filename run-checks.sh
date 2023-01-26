@@ -1,8 +1,8 @@
-# run 'bandit' to scan for security vulnerabilities (none identified on Jan 25th, 2023)
+# run 'bandit' to scan for the first scan of security vulnerabilities
 
 bandit --ini .bandit -r > bandit.txt
 
-# run complementary library ('safety') to scan for security vulnerabilities (11 identified on Jan 25th, 2023)
+# run complementary library ('safety') to further scan for security vulnerabilities
 
 safety check -o text > safety_sec_scan.txt
 
