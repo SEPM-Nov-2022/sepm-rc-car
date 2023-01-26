@@ -1,0 +1,16 @@
+autopep8
+bandit
+behave==1.2.6
+flake8
+flask
+Flask-RESTful==0.3.9
+isort
+numpy
+pygame==2.1.2
+pylint
+pytest
+pytest-cov
+python-graphviz
+PyYAML
+requests
+safety

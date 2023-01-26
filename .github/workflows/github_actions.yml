@@ -17,15 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-        pip install behave==1.2.6
-        pip install pygame==2.1.2
-        pip install PyYAML
-        pip install pytest
-        pip install pytest-cov
-        pip install flask
-        pip install requests
-        pip install Flask-RESTful==0.3.9
+        pip install -r requirements.txt
     - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
         pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py')
@@ -35,3 +27,9 @@ jobs:
     - name: Run cucumber
       run: |
         behave
+    - name: Run bandit for the first security scan
+      run: |
+        bandit
+    - name: Run safety for the second (complementary) security scan
+      run: |
+        safety check
