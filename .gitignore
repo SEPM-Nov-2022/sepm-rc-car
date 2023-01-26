@@ -21,6 +21,7 @@ pylint.txt
 
 # Security-related
 bandit.txt
+safety_sec_scan.txt
 
 # Unit test / coverage reports
 htmlcov/

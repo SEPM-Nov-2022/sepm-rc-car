@@ -23,6 +23,7 @@ dependencies:
       - numpy
       - pygame==2.1.2
       - safety
+      - setuptools==65.5.1
       - -e .
 
 variables:

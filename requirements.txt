@@ -14,3 +14,4 @@ graphviz
 PyYAML
 requests
 safety
+setuptools==65.5.1
