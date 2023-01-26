@@ -10,7 +10,7 @@ pygame==2.1.2
 pylint
 pytest
 pytest-cov
-python-graphviz
+graphviz
 PyYAML
 requests
 safety
