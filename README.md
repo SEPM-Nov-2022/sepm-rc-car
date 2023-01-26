@@ -106,7 +106,19 @@ the pipeline defined at `.github/workflows/pylint_pytest_git_actions.yml`. Thus,
 reports are conveniently and transparently available in the builds directly on GitHub.
 
 
-## Reference list
-App Of The Day. (n.d.). Race It! - 2D Racing Game. Available from: https://appoftheday.downloadastro.com/app/race-it-2d-racing-game/ [Accessed 12 Jan. 2023].
-
-Freepik. (n.d.). Free Vector | Profile icons pack in hand drawn style. Available from: https://www.freepik.com/free-vector/profile-icons-pack-hand-drawn-style_18156023.htm [Accessed 22 Jan. 2023].
+## References
+- App Of The Day. (n.d.) Race It! - 2D Racing Game. [online] Available from: https://appoftheday.downloadastro.com/app/race-it-2d-racing-game/ [Accessed 12 Jan. 2023].
+- Fine, C., & Rush, E. (2018) Why does all the girls have to buy pink stuff? The ethics and science of the gendered toy marketing debate. _Journal of Business Ethics_ 149(4): 769-784.
+- Freepik. (n.d.) Free Vector | Profile icons pack in hand drawn style. [online] Available from: https://www.freepik.com/free-vector/profile-icons-pack-hand-drawn-style_18156023.htm [Accessed 22 Jan. 2023].
+- Gaikwad, V., Joeg, P., & Joshi, S. (2017) AgileRE: Agile requirements management tool. In _Proceedings of the Computational Methods in Systems and Software_ (pp. 236-249). Springer, Cham.
+- Howe, O. R. (2022) Hitting the barriers–Women in Formula 1 and W series racing. _European Journal of Women's Studies_ 13505068221094204.
+- Klotins, E., Gorschek, T., Sundelin, K., & Falk, E. (2022) Towards cost-benefit evaluation for continuous software engineering activities. _Empirical Software Engineering_ 27(6): 157.
+- Kreitz, M. (2019) Security by design in software engineering. _ACM SIGSOFT Software Engineering Notes_ 44(3): 23-23.
+- Manaog, M. L. (2022) Environment-related logging. [online] GitHub. Available from: https://github.com/emesdav/team-separation-of-duties/commit/475a442070105949974e8df12a2fcd261dfa45b7 [Accessed 12 Jan. 2023]
+- Mitchell-Malm, Scott (2021) “Hamilton Commission Reveals Stark F1 Diversity Findings”. _The Race.com_. Available from: https://the-race.com/formula-1/hamilton-commission-reveals-stark-f1-diversity-findings/.) [Accessed 22 Jan. 2023].
+- Morgan, R. and Scarlett, Y. (2021) Accelerating Change: Improving Representation of Black People in UK Motorsport. [online] _The Hamilton Commission_. Available at: https://www.hamiltoncommission.org/the-report.
+- Nielsen, L., & Nielsen, L. (2019) Making Your Personas Live. _Personas-User Focused Design_ 161-170.
+- Piquero, A. R., Piquero, N. L., & Riddell, J. R. (2021) Do (sex) crimes increase during the United States Formula 1 grand prix?. _Journal of Experimental Criminology_ 17(1): 87-108.
+- Reid, M. B., & Lightfoot, J. T. (2019) The physiology of auto racing: a brief review. _Medicine and science in sports and exercise_ 1-15.
+- Warwick, M. (2023) Why are there no women at the top of motorsport?. _BBC Sport_. [online] Available from: https://www.bbc.com/sport/motorsport/64338226 [Accessed 21 Jan. 2023].
+- Xie, T., Tillmann, N., & Lakshman, P. (2016) Advances in unit testing: theory and practice. In _Proceedings of the 38th international conference on software engineering companion_, 904-905.
