@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r ./requirements.txt
+        pip install -r requirements.txt
     - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
         pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py')
