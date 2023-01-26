@@ -29,7 +29,7 @@ jobs:
         behave
     - name: Run bandit for the first security scan
       run: |
-        bandit
+        bandit --ini .bandit
     - name: Run safety for the second (complementary) security scan
       run: |
         safety check
