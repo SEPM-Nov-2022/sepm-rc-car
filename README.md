@@ -72,9 +72,11 @@ To install the project as a package in editable (development) mode:
 
 launch `./run.sh`
 
-## Quality checks
+## Security and code quality checks
 
-Launch `./checks.sh`, then verify `banding.txt` for security and `pylint.txt` for linting
+Launch `./checks.sh`, then verify:
+- `banding.txt` and `safety_sec_scan.txt` for security, and 
+- `pylint.txt` for linting
 
 Note: some `pygame`-related errors [may be impossible to fix](https://stackoverflow.com/questions/57116879/how-to-fix-pygame-module-has-no-member-k-right).
 
@@ -102,8 +104,8 @@ executing the following command:
 `pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests`
 
 The test coverage, along with linting/quality checks, are run automatically via GitHub Actions for CI/CD as per 
-the pipeline defined at `.github/workflows/pylint_pytest_git_actions.yml`. Thus, the linting and test coverage 
-reports are conveniently and transparently available in the builds directly on GitHub.
+the pipeline defined at `.github/workflows/github_actions.yml`. Thus, the linting, test coverage 
+reports, and security scans are conveniently and transparently available in the builds directly on GitHub.
 
 
 ## References
