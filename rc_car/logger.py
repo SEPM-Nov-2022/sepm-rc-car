@@ -8,9 +8,10 @@ performed and/or warnings/errors occurred throughout it.
 import logging
 import sys
 
-from .constants import (LOG_PATH_AND_FILE, DATE_TIME_FMT,
-                      EMPTY_STRING, FORMAT_OF_LOG_MSG)
+from .constants import (DATE_TIME_FMT, EMPTY_STRING, FORMAT_OF_LOG_MSG,
+                        LOG_PATH_AND_FILE)
 from .utils import get_env
+
 
 def generate_logger(
         env: str = get_env('ENV'),

@@ -3,12 +3,13 @@ import json
 import unittest
 from rc_car.analytics import Analytics, AnalyticsInput
 
+
 class MockOutput:
     """mock of the storage"""
 
     def __init__(self):
         """builds a log"""
-        self.log=[]
+        self.log = []
         self._called_write = 0
 
     def write(self, string):
@@ -21,6 +22,7 @@ class MockOutput:
         """returns the number of calls to method write"""
         return self._called_write
 
+
 class TestAnalytics(unittest.TestCase):
     """test suite"""
 
@@ -32,7 +34,8 @@ class TestAnalytics(unittest.TestCase):
         audit.store_input(AnalyticsInput.STEER)
         self.assertEqual(1, len(output.log))
         entry = json.loads(output.log[0])
-        self.assertEqual('123e4567-e89b-12d3-a456-426614174000', entry['deviceId'])
+        self.assertEqual(
+            '123e4567-e89b-12d3-a456-426614174000', entry['deviceId'])
         self.assertTrue(entry['startSession'] is not None)
         self.assertTrue(entry['endSession'] is not None)
         self.assertTrue(entry['sessionDuration'] is not None)

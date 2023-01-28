@@ -8,18 +8,19 @@ from pygame import Surface
 from pygame.font import Font
 from pygame.math import Vector2
 
-from .menu_item import MenuItem
 from .audio_effect import AudioEffect
 from .car import Car
 from .constants import (ASSET_BACKGROUND, ASSET_BATTERY, ASSET_CAR, ASSET_DIR,
                         ASSET_DRIVER, BATTERY_HEIGHT, BATTERY_WIDTH, BATTERY_X,
                         BATTERY_Y, CAR_GAME_CAPTION, DRIVER_SIZE, DRIVER_X,
                         DRIVER_Y, HEIGHT, MAP_MAX_X, MAP_MAX_Y, MAP_MIN_X,
-                        MAP_MIN_Y, PPU, TICKS, WIDTH, USER_1, USER_2, USER_3, USER_4,
-                        MENU_HEADLINE, MENU_BACKGROUND_COLOUR, MENU_BG_LEFT, MENU_BG_TOP,
-                        MENU_WIDTH, MENU_HEIGHT, MENU_X, MENU_Y, MENU_ITEM_IMAGE_SIZE,
-                        MENU_FONT, MENU_FONT_SIZE)
+                        MAP_MIN_Y, MENU_BACKGROUND_COLOUR, MENU_BG_LEFT,
+                        MENU_BG_TOP, MENU_FONT, MENU_FONT_SIZE, MENU_HEADLINE,
+                        MENU_HEIGHT, MENU_ITEM_IMAGE_SIZE, MENU_WIDTH, MENU_X,
+                        MENU_Y, PPU, TICKS, USER_1, USER_2, USER_3, USER_4,
+                        WIDTH)
 from .logger import generate_logger
+from .menu_item import MenuItem
 from .remote import Remote
 
 log = generate_logger(name='Race car game')
@@ -48,7 +49,8 @@ class Game:
         for i, icon_filename in enumerate([USER_1, USER_2, USER_3, USER_4]):
             button = self._load_image(icon_filename, (MENU_ITEM_IMAGE_SIZE,
                                       MENU_ITEM_IMAGE_SIZE)).convert_alpha()
-            self.driver_buttons.append(MenuItem(615, 150 + i * 100, button, icon_filename))
+            self.driver_buttons.append(
+                MenuItem(615, 150 + i * 100, button, icon_filename))
 
     def run(self):
         """main loop"""
@@ -142,8 +144,8 @@ class Game:
     def _draw_menu(self) -> None:
         # Add menu background
         pygame.draw.rect(self.screen, MENU_BACKGROUND_COLOUR,
-                            pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
-                                        MENU_WIDTH, MENU_HEIGHT))
+                         pygame.Rect(MENU_BG_LEFT, MENU_BG_TOP,
+                                     MENU_WIDTH, MENU_HEIGHT))
         # Draw menu headline
         font = pygame.font.SysFont(MENU_FONT, MENU_FONT_SIZE)
         self._draw_text(MENU_HEADLINE, font, MENU_X, MENU_Y)
@@ -151,7 +153,7 @@ class Game:
         for driver_button in self.driver_buttons:
             driver_button.draw(self.screen)
 
-    def _draw_text(self, text:str, font:Font, x_pos:int, y_pos:int) -> None:
+    def _draw_text(self, text: str, font: Font, x_pos: int, y_pos: int) -> None:
         img = font.render(text, True,  (0, 0, 0))
         self.screen.blit(img, (x_pos, y_pos))
 

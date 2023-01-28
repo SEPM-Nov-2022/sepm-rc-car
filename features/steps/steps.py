@@ -1,7 +1,7 @@
 """Cucumber steps"""
 from datetime import datetime
 
-from behave import given, when, then # pylint: disable=no-name-in-module
+from behave import given, when, then  # pylint: disable=no-name-in-module
 
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
@@ -9,6 +9,7 @@ from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
 from rc_car.audio_effect import AudioEffect
 from rc_car.car import Car
 from rc_car.remote import Remote
+
 
 class MockAnalyticsStorage:
     """mock the storage"""
@@ -25,6 +26,7 @@ class MockAnalyticsStorage:
     def called_write(self):
         """returns the number of calls to method write"""
         return self._called_write
+
 
 @given('the app is connected to the race car and the race car is charged')
 def the_app_is_connected_to_the_race_car_and_the_race_car_is_charged(context):
@@ -132,7 +134,7 @@ def the_car_sounds_the_horn(context):
     """verify the horn"""
     assert \
         context.audio_handler_calls[len(context.audio_handler_calls)-1].value.path\
-            == AudioEffect.HORN.value.path
+        == AudioEffect.HORN.value.path
 
 
 @then('the car LEDs change colour to the selected scheme')
@@ -170,7 +172,6 @@ def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_emp
 def the_server_is_notified(context):
     """checks calls to the mock storage as a proxy for the remote server"""
     assert context.mock_storage.called_write > 0
-
 
 
 def init(context, battery_is_full: bool):
