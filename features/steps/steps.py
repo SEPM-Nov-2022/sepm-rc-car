@@ -161,7 +161,7 @@ def the_app_displays_the_estimated_range_left_in_the_battery():
 
 
 @then('the remote suggests that the race care is out of range or the battery is empty')
-def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_empty(context):
+def remote_race_care_is_out_of_range_or_the_battery_is_empty(context):
     """verify the notification"""
     assert len(context.notifications) > 0
     assert context.notifications[len(context.notifications)-1] \

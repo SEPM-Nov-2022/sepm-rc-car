@@ -76,7 +76,8 @@ EMPTY_STRING = ''
 # the line number at which the log occurs, the log level
 # (e.g., debug/info/warning/error/critical), and
 # the log message.
-FORMAT_OF_LOG_MSG = '%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s'
+FORMAT_OF_LOG_MSG = \
+    '%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s'
 
 # Constants for the race car
 

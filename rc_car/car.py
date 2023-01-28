@@ -114,7 +114,8 @@ class Car:
         """merges all inputs"""
         self.status['velocity'] += (self.status['acceleration'] * game_time, 0)
         self.status['velocity'].x = max(-MAX_VELOCITY,
-                                        min(self.status['velocity'].x, MAX_VELOCITY))
+                                        min(self.status['velocity'].x,
+                                            MAX_VELOCITY))
 
         if self.status['steering']:
             turning_radius = CAR_LENGTH / sin(radians(self.status['steering']))
@@ -140,8 +141,9 @@ class Car:
 
     def _reverse(self, game_time):
         """acceleration in reverse"""
-        self._update_acceleration(-BRAKE_DECELERATION if self.status['velocity'].x >
-                                  0 else self.status['acceleration'] - game_time)
+        self._update_acceleration(-BRAKE_DECELERATION
+                                  if self.status['velocity'].x > 0
+                                  else self.status['acceleration'] - game_time)
 
     def _brake(self, game_time):
         """brake control"""
@@ -162,7 +164,8 @@ class Car:
         self._update_acceleration(
             -copysign(DECELERATION, self.status['velocity'].x)
             if abs(self.status['velocity'].x) > game_time * DECELERATION
-            else -self.status['velocity'].x / (game_time if game_time != 0 else 1)
+            else -self.status['velocity'].x / (game_time
+                                               if game_time != 0 else 1)
         )
 
     def _update_acceleration(self, change: float):
@@ -187,7 +190,8 @@ class Car:
         self.status['steering'] = self.status['steering'] + direction * \
             STEERING_FACTOR * game_time if direction != 0 else 0
         self.status['steering'] = max(-MAX_STEERING,
-                                      min(self.status['steering'], MAX_STEERING))
+                                      min(self.status['steering'],
+                                          MAX_STEERING))
 
     def _cicle_color(self):
         now = datetime.now()
