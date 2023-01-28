@@ -4,9 +4,10 @@ from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
 from .logger import generate_logger
 
 from .car import Car
-from .analytics import Analytics,AnalyticsInput,AnalyticsStorage
+from .analytics import Analytics, AnalyticsInput, AnalyticsStorage
 
 log = generate_logger(name='Remote')
+
 
 class Remote:
     """Remote controller for a Car"""

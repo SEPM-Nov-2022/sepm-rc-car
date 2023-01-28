@@ -5,7 +5,8 @@ throughout the application.
 import yaml
 from .constants import ENV_FILE_DIR
 
-def get_env(variable_name:str) -> str:
+
+def get_env(variable_name: str) -> str:
     """utility to get one env value"""
     with open(ENV_FILE_DIR, "r", encoding="utf-8") as stream:
         try:

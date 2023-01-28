@@ -7,9 +7,12 @@ from enum import Enum
 
 import requests
 
-from .constants import (ANALYTICS_FOLDER, ANALYTICS_BASE_FILENAME,
-                       ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA)
+from .constants import (ANALYTICS_FOLDER,
+                        ANALYTICS_BASE_FILENAME,
+                        ANALYTICS_SERVER_URL,
+                        ANALYTICS_SYNC_TIME_DELTA)
 from .utils import get_env
+
 
 class AnalyticsInput(Enum):
     """Enum listing the input types"""
@@ -18,6 +21,7 @@ class AnalyticsInput(Enum):
     BRAKE = 3
     REVERSE = 4
     HONK = 5
+
 
 class AnalyticsStorage:
     """utility class abstracting the storage"""
@@ -40,18 +44,20 @@ class AnalyticsStorage:
 
     def sync_logs(self):
         """transfers logs to the remote server"""
-        file_names = [os.path.join(ANALYTICS_FOLDER, f) for f in os.listdir(ANALYTICS_FOLDER)
-            if os.path.isfile(os.path.join(ANALYTICS_FOLDER, f))]
+        file_names = [os.path.join(ANALYTICS_FOLDER, f)
+                      for f in os.listdir(ANALYTICS_FOLDER)
+                      if os.path.isfile(os.path.join(ANALYTICS_FOLDER, f))]
         for file_name in file_names:
             with open(file_name, 'r', encoding='UTF-8') as file_handler:
                 data = file_handler.readline()
                 device_id = json.loads(data)['deviceId']
                 url = f'{ANALYTICS_SERVER_URL}{device_id}/'
-                response = requests.post(url, json = data, timeout=30)
+                response = requests.post(url, json=data, timeout=30)
                 if response.ok:
                     os.unlink(file_name)
                 else:
                     print(f'error transfering file {file_name}')
+
 
 class CustomEncoder(json.JSONEncoder):
     """custom encoder to handle datetime"""
@@ -61,12 +67,13 @@ class CustomEncoder(json.JSONEncoder):
             return str(o)
         return super().default(o)
 
+
 class Analytics:
     """analytics utility class"""
 
     def __init__(self, output):
         self.output = output
-        self.log={
+        self.log = {
             'deviceId': get_env('DEVICE_UUID'),
             'startSession': datetime.now(),
             'endSession': datetime.now(),
@@ -83,7 +90,7 @@ class Analytics:
             }
         }
 
-    def store_input(self, analytics_input:AnalyticsInput):
+    def store_input(self, analytics_input: AnalyticsInput):
         """storese the current log in the data structure"""
         if analytics_input is None:
             return

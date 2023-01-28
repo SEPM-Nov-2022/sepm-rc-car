@@ -1,13 +1,27 @@
-# run 'bandit' to scan for the first scan of security vulnerabilities
+# build reports dir
+REPORT="reports"
+rm -fr $REPORT 2>/dev/null
+mkdir $REPORT
 
-bandit --ini .bandit -r > bandit.txt
+# run 'bandit' to scan for the first scan of security vulnerabilities
+bandit --ini .bandit -r > $REPORT/bandit.txt
 
 # run complementary library ('safety') to further scan for security vulnerabilities
 
-safety check -o text > safety_sec_scan.txt
+for x in $(git ls-files '*.py');do
+    python3 -m safety check -o text --file $x >> $REPORT/safety_sec_scan.txt
+done
 
 # run 'pylint' for code quality checks
-pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') > pylint.txt
+pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') > $REPORT/pylint.txt
+
+# run pyflakes
+
+python3 -m pyflakes $(git ls-files '*.py') > $REPORT/pyflakes.txt
 
 # run 'pytest' and 'pytest-cov' for reporting test coverage
-pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
+pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests > $REPORT/pytest-cov.txt
+
+# run pycodestyle
+
+python3 -m pycodestyle $(git ls-files '*.py') > $REPORT/pycodestyle.txt

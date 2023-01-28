@@ -10,6 +10,7 @@ from rc_car.audio_effect import AudioEffect
 from rc_car.car import Car
 from rc_car.remote import Remote
 
+
 class MockAnalyticsStorage:
     """mock the storage"""
 
@@ -25,6 +26,7 @@ class MockAnalyticsStorage:
     def called_write(self):
         """returns the number of calls to method write"""
         return self._called_write
+
 
 @given('the app is connected to the race car and the race car is charged')
 def the_app_is_connected_to_the_race_car_and_the_race_car_is_charged(context):
@@ -159,7 +161,7 @@ def the_app_displays_the_estimated_range_left_in_the_battery():
 
 
 @then('the remote suggests that the race care is out of range or the battery is empty')
-def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_empty(context):
+def remote_race_care_is_out_of_range_or_the_battery_is_empty(context):
     """verify the notification"""
     assert len(context.notifications) > 0
     assert context.notifications[len(context.notifications)-1] \
@@ -170,7 +172,6 @@ def the_remote_suggests_that_the_race_care_is_out_of_range_or_the_battery_is_emp
 def the_server_is_notified(context):
     """checks calls to the mock storage as a proxy for the remote server"""
     assert context.mock_storage.called_write > 0
-
 
 
 def init(context, battery_is_full: bool):

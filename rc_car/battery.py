@@ -36,11 +36,13 @@ class Battery:
 
         time_elapsed = delta.seconds
         current_battery_level = self._battery_level
-        if time_elapsed > ALERT_SECS and current_battery_level < BATTERY_LOW_ALERT:
+        if time_elapsed > ALERT_SECS \
+           and current_battery_level < BATTERY_LOW_ALERT:
             self._last_alert = now
             log.warning(
                 'More than %s have passed (%s) and the battery level is %s below %s %%',
-                ALERT_SECS, time_elapsed, current_battery_level, BATTERY_LOW_ALERT
+                ALERT_SECS, time_elapsed, current_battery_level,
+                BATTERY_LOW_ALERT
             )
             return True
         return False
