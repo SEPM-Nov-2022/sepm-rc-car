@@ -11,6 +11,7 @@ setup(
         "pygame==2.1.2",
         "flask",
         "Flask-RESTful==0.3.9",
+        "freezegun",
         "pytest-cov",
         "PyYAML",
         "requests"

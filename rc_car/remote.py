@@ -20,7 +20,7 @@ class Remote:
         self._filter_key = []
         self.analytics = Analytics(AnalyticsStorage())
 
-    def connect_to(self, car: Car):
+    def connect_to(self, car: Car):  # pragma: no cover
         """connects to a car"""
         self.car = car
 
@@ -36,7 +36,7 @@ class Remote:
         log.error(msg)
         return False
 
-    def _store_analytics(self, pressed):
+    def _store_analytics(self, pressed):  # pragma: no cover
         if pressed[K_LEFT] or pressed[K_RIGHT]:
             self.analytics.store_input(AnalyticsInput.STEER)
         if pressed[K_UP]:

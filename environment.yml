@@ -20,6 +20,8 @@ dependencies:
   - pyyaml
   - pip
   - pip:
+      - freezegun
+      - mock
       - numpy
       - pygame==2.1.2
       - safety
