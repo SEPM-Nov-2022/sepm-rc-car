@@ -153,7 +153,8 @@ class Game:
         for driver_button in self.driver_buttons:
             driver_button.draw(self.screen)
 
-    def _draw_text(self, text:str, font:Font, x_pos:int, y_pos:int) -> None:
+    def _draw_text(self, text: str, font: Font,
+                   x_pos: int, y_pos: int) -> None:
         img = font.render(text, True,  (0, 0, 0))
         self.screen.blit(img, (x_pos, y_pos))
 

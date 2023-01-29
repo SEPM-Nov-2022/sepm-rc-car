@@ -133,8 +133,8 @@ def the_car_moves_in_that_direction(context):
 def the_car_sounds_the_horn(context):
     """verify the horn"""
     assert \
-        context.audio_handler_calls[len(context.audio_handler_calls)-1].value.path\
-        == AudioEffect.HORN.value.path
+        context.audio_handler_calls[len(context.audio_handler_calls)-1]\
+               .value.path == AudioEffect.HORN.value.path
 
 
 @then('the car LEDs change colour to the selected scheme')
@@ -160,7 +160,8 @@ def the_app_displays_the_estimated_range_left_in_the_battery():
     """TODO, considering 'context' as input arg"""
 
 
-@then('the remote suggests that the race care is out of range or the battery is empty')
+@then('the remote suggests that the race care is out of range ' +
+      'or the battery is empty')
 def remote_race_care_is_out_of_range_or_the_battery_is_empty(context):
     """verify the notification"""
     assert len(context.notifications) > 0

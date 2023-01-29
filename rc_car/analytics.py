@@ -42,7 +42,8 @@ class AnalyticsStorage:
 
     def sync_logs(self):
         """transfers logs to the remote server"""
-        file_names = [os.path.join(ANALYTICS_FOLDER, f) for f in os.listdir(ANALYTICS_FOLDER)
+        file_names = [os.path.join(ANALYTICS_FOLDER, f)
+                      for f in os.listdir(ANALYTICS_FOLDER)
                       if os.path.isfile(os.path.join(ANALYTICS_FOLDER, f))]
         for file_name in file_names:
             with open(file_name, 'r', encoding='UTF-8') as file_handler:
