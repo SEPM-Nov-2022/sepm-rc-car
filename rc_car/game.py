@@ -57,15 +57,15 @@ class Game:
         can_drive = True
         exit_game = False
         game_paused = False
-        clock = pygame.time.Clock()
+        clock = self._get_clock()
         while not exit_game:
             if can_drive and not game_paused:
                 can_drive = self.remote.command(
-                    pygame.key.get_pressed(), clock.get_time() / 1000)
+                    self._get_key_pressed(), clock.get_time() / 1000)
             self._draw(game_paused)
             clock.tick(TICKS)
 
-            for event in pygame.event.get():
+            for event in self._get_event():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_m:
                         game_paused = not game_paused
@@ -79,7 +79,7 @@ class Game:
                             driver_button.filename, (DRIVER_SIZE, DRIVER_SIZE))
                         game_paused = False
 
-        pygame.quit()
+        self._quit()
 
     def play_audio(self, audio: AudioEffect):
         """play sound"""
@@ -192,3 +192,15 @@ class Game:
         base_dir = os.path.dirname(
             os.path.abspath(__file__))
         return os.path.join(f'{base_dir}/{ASSET_DIR}', asset_name)
+
+    def _get_clock(self):
+        return pygame.time.Clock()
+
+    def _get_event(self):
+        return pygame.event.get()
+    
+    def _get_key_pressed(self):
+        return pygame.key.get_pressed()
+
+    def _quit(self):
+        pygame.quit()
