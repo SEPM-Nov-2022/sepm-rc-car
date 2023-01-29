@@ -1,6 +1,7 @@
 """This file includes the key constants used in the race car game."""
 import os
 from pathlib import Path
+
 from pygame import Color
 
 # general constants

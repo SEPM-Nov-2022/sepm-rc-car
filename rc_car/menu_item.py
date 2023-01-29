@@ -3,17 +3,17 @@ import pygame
 from pygame import Surface
 
 
-# Menu Item Class
 class MenuItem:
-    """Serves are a container for menu items,
+    """Serves as a container for menu items,
     i.e. for switching between user's profile pictures"""
+
     def __init__(self, pos_x: int, pos_y: int,
                  image: pygame.Surface, filename: str):
         width = image.get_width()
         height = image.get_height()
         scale = 1
-        self.image = pygame.transform.scale(image, (int(width * scale),
-                                            int(height * scale)))
+        self.image = pygame.transform.scale(
+            image, (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (pos_x, pos_y)
         self.clicked = False

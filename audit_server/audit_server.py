@@ -9,6 +9,7 @@ api = Api(app)
 
 class ToyEntry(Resource):
     """Create the Resource"""
+
     def get(self, uuid):
         """echo service"""
         return f'echo {uuid}', 200

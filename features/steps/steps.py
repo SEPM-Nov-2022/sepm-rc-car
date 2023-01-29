@@ -1,7 +1,7 @@
 """Cucumber steps"""
 from datetime import datetime
 
-from behave import given, when, then # pylint: disable=no-name-in-module
+from behave import given, when, then  # pylint: disable=no-name-in-module
 
 from pygame.math import Vector2
 from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h, K_c
@@ -134,7 +134,7 @@ def the_car_sounds_the_horn(context):
     """verify the horn"""
     assert \
         context.audio_handler_calls[len(context.audio_handler_calls)-1].value.path\
-            == AudioEffect.HORN.value.path
+        == AudioEffect.HORN.value.path
 
 
 @then('the car LEDs change colour to the selected scheme')

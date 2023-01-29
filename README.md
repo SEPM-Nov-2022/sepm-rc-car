@@ -8,30 +8,40 @@ the module on 'Software Engineering Project Management' at the University of Ess
 
 ```
 .
+├── .github                               # Directory containing app-related GitHub Actions for CI/CD
+│
 ├── assets                                # Directory containing app-related images and audio files
 │
-├── docs                                  # Directory with app-related docs and the team's meeting notes
+├── audit_server                          # Directory containing app-related audit server
+│
+├── docs                                  # Directory with app-related docs, presentation transcripts, and the team's meeting notes
 │
 ├── features                              # Directory detailing the features and their associated scenarios
 │
-├── src                                   # Directory containing the source codes for a race car game
-│   └── rc_car                            # The main directory
-│     ├── car_model                       # Directory with definition of car model and related audio effects and constants
+├── rc_car                                # Directory containing the source codes for a race car game
+│     │
+│     ├── analytics.py                    # The race car game's analytics, including those for storage
+│     ├── audio_effect.py                 # The race car game's audio effects (horn and low battery)
+│     ├── battery.py                      # The race car game's battery class, and key attributes and methods
+│     ├── car.py                          # The race car game's car class, and key attributes and methods
 │     ├── constants.py                    # The race car game's main constants
 │     ├── game.py                         # The race car game's main functionalities
-│     └── rc_car_launcher.py              # The race car game launcher
+│     ├── logger.py                       # The race car game's centralised custom logger
+│     ├── menu_item.py                    # The race car game's for menu for changing user's profile picture
+│     ├── rc_car_launcher.py              # The race car game's launcher
+│     ├── remote.py                       # The race car game's remote controller
+│     └── utils.py                        # Key utility-based functions
 │
 ├── .bandit
 ├── .coveragerc
 ├── .gitignore
-├── checks.sh
 ├── environment.yml
 ├── LICENSE.md
-├── pyproject.toml
 ├── README.md
-├── run.sh
+├── run.sh                                # To run game launcher and audit server
+├── run-checks.sh
 ├── run-cucumber.sh
-├── setup.cfg
+├── run-tests.sh
 └── setup.py
 ```
 
@@ -68,9 +78,9 @@ To install the project as a package in editable (development) mode:
 
 `pip install -e .`
 
-## Run
+## Run the game
 
-launch `./run.sh`
+Launch `./run.sh`
 
 ## Security and code quality checks
 
@@ -103,10 +113,10 @@ executing the following command:
 
 `pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests`
 
+## GitHub Actions for CI/CD
 The test coverage, along with linting/quality checks, are run automatically via GitHub Actions for CI/CD as per 
 the pipeline defined at `.github/workflows/github_actions.yml`. Thus, the linting, test coverage 
 reports, and security scans are conveniently and transparently available in the builds directly on GitHub.
-
 
 ## References
 - App Of The Day. (n.d.) Race It! - 2D Racing Game. [online] Available from: https://appoftheday.downloadastro.com/app/race-it-2d-racing-game/ [Accessed 12 Jan. 2023].

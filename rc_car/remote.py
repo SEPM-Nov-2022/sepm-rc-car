@@ -1,16 +1,17 @@
 """Remote control"""
 from typing import Callable, Sequence
-from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
-from .logger import generate_logger
 
-from .car import Car
+from pygame import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP, K_h
+
 from .analytics import Analytics, AnalyticsInput, AnalyticsStorage
+from .car import Car
+from .logger import generate_logger
 
 log = generate_logger(name='Remote')
 
 
 class Remote:
-    """Remote controller for a Car"""
+    """Remote controller for a car"""
 
     def __init__(self, notification_callback: Callable[[str], None]):
         """creates the instance"""

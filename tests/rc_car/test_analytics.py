@@ -34,8 +34,8 @@ class TestAnalytics(unittest.TestCase):
         audit.store_input(AnalyticsInput.STEER)
         self.assertEqual(1, len(output.log))
         entry = json.loads(output.log[0])
-        self.assertEqual('123e4567-e89b-12d3-a456-426614174000',
-                         entry['deviceId'])
+        self.assertEqual(
+            '123e4567-e89b-12d3-a456-426614174000', entry['deviceId'])
         self.assertTrue(entry['startSession'] is not None)
         self.assertTrue(entry['endSession'] is not None)
         self.assertTrue(entry['sessionDuration'] is not None)
