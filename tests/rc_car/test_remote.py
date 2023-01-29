@@ -1,3 +1,5 @@
+"""Unit tests for remote.py file"""
+
 import logging
 import unittest
 
@@ -20,6 +22,7 @@ class TestRemote(unittest.TestCase):
 
     @patch('rc_car.car.Car.handshake_remote', return_value=False)
     def test_command_false(self, _):
+        """Test method for command returning False."""
         expected_bool = False
         with self.assertLogs(level='ERROR') as log_msg:
             logging.getLogger().error(LOG_MSG)
@@ -32,6 +35,7 @@ class TestRemote(unittest.TestCase):
     @patch('rc_car.car.Car.command', return_value=True)
     @patch('rc_car.remote.Remote._store_analytics', return_value=True)
     def test_command_true(self, *_):
+        """Test method for command returning True."""
         expected_bool = True
         response_bool = remote_obj.command(DUMMY_PRESSED_SEQUENCE, DUMMY_GAME_TIME)
         self.assertIsInstance(response_bool, bool)
