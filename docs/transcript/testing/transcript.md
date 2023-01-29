@@ -1,4 +1,29 @@
-# Transcript on testing
+# Code
+
+## The core
+
+The three main elements of the simulation are Remote, Car, and the Analytics Mock Server.
+
+The class `Remote` models the remote control: it connects to the car, sends the commands, and manages the analytics. It simulates the mobile app responsible for car control and analytics.
+
+The class `Car` models the RC car: it translates inputs into actions moving in the area. It encapsulates the data relative to motion and the battery. The battery system has some complexity that deserved a separate class, `Battery` to properly separate the dynamics of driving from the logic of consuming energy.
+
+To create a more realistic model, the class `Game` contains all the logic of the simulation, such as most of the `PyGame` functionalities, the game's main loop, and all the elements concerning graphics and audio. The class `Game` simulates the world where the car lives. For example, the `Game`'s function `check walls` is a `Callable` used by `Car` to detect collisions. Similarly, the functions `notify` and `play audio` are `Callables` used by the class `Car` and the class `Remote` to interact with the world by sending messages or sounds.
+
+## Overview of the remaining scripts
+
+- The script `Constants` contains all the constants to simplify the maintenance.
+- `Logger` configures the application's logging system
+- `Utils` contains a utility method that returns the configuration in `environment.yml`
+- `RC Car Launcher` is nothing more than the simulation's entry point.
+
+## Analytics
+
+The project included a remote `Analytics` server able to store data from multiple cars, if not multiple types of toys. For the development, the team created a mock server mimicking the real one in order to test the functionalities.
+
+The `Analytics Mock Server` is a simple `Flask` application. Its only function is to expose a `REST endpoint` and echo the received message in the logs. The class `Remote` stores locally the analytics and periodically synchronize with the remote server. The class `Analytics` stores the session's data in the folder `analytics` creating one file per session. The class `Analytics` continuously updates the file and deletes it if the synchronization is successful.
+
+# Testing
 Testing is a key and iterative component of software engineering projects that adhere to the Agile methodology and 
 spans across the entire software development lifecycle (SDLC) (Gaikwad _et al_., 2017) on the following environments:
 - development, used to create the functionalities of the application, and related unit tests to verify their correct behaviour,
@@ -16,13 +41,17 @@ Thus, testing involves various phases, such as:
 - security testing to identify any security vulnerabilities in the project's dependencies and mitigate them (if any), and 
 - quality checks to ensure a consistent and production-grade code quality.
 
+## Impact of testing on coding
+
+The main challenge is testing components performing IO, like those interacting with `Pygame`. Some components, like the `Analytics` class, are designed to separate the logic from the IO dependency that is injected separately. The test can inject a mocked object and intercept the calls to verify that the logic components triggers the right IO operations.
+
 ## Key testing technologies
 The following technologies were leveraged for testing:
 - `Gherkin` for requirements testing, 
 - `pytest` and `pytest-cov` for unit testing, including reporting test coverage in percentage and any missing/uncovered lines,
 - `bandit` and `safety` for security checks, assessing vulnerabilities in the dependencies to determine whether 
 adding them to the project, thus enabling security by design (Kreitz, 2019), and
-- `pylint` for linting based on code quality checks.
+- `pylint`, `pycodestyle` and `pyflakes` for linting based on code quality checks.
 
 ## Unit tests
 Unit tests, which tests the logic of the key components in the application in a white-box manner (Xie _et al_., 2016), have been added 
