@@ -2,6 +2,8 @@
 
 import unittest
 
+from freezegun import freeze_time
+
 from rc_car.battery import Battery
 
 battery_1 = Battery()
@@ -29,9 +31,17 @@ class TestBattery(unittest.TestCase):
         battery_2.consume(usage)
         self.assertEqual(battery_2.battery_level, 0.)
 
-    def test_is_alert(self):
-        """Method to test battery alert"""
+    def test_is_alert_false(self):
+        """Method to test battery alert if false"""
         battery_1.battery_level = 30
         response_alert = battery_1.is_alert()
         self.assertIsInstance(response_alert, bool)
         self.assertEqual(response_alert, False)
+
+    @freeze_time("2023-01-28")
+    def test_is_alert_true(self):
+        """Method to test battery alert if true"""
+        battery_1.battery_level = 2
+        response_alert = battery_1.is_alert()
+        self.assertIsInstance(response_alert, bool)
+        self.assertEqual(response_alert, True)

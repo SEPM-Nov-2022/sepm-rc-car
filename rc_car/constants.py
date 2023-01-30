@@ -4,13 +4,13 @@ from pathlib import Path
 
 from pygame import Color
 
-# general constants
-
+# General constants
 ASSET_DIR = '../assets'
 ASSET_CAR = 'car.png'
 ASSET_DRIVER = 'driver.png'
 ASSET_BATTERY = 'battery.png'
 ASSET_BACKGROUND = 'background.png'
+ENCODING = "utf-8"
 
 # User profile pictures
 USER_1 = 'user_1.png'
@@ -66,7 +66,6 @@ MAP_MAX_X = 38
 MAP_MAX_Y = 21
 
 # Constants used for logging
-
 DATE_TIME_FMT = '%H:%M:%S'
 
 EMPTY_STRING = ''
@@ -80,7 +79,6 @@ FORMAT_OF_LOG_MSG = \
     '%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s'
 
 # Constants for the race car
-
 ALERT_SECS = 5
 
 BATTERY_LEVEL_INIT = 100.0
@@ -102,9 +100,7 @@ ASSET_BATTERY_LOW = 'battery_low.mp3'
 
 CAR_COLORS = [Color(0xff, 0, 0), Color(0, 0xff, 0), Color(0, 0, 0xff)]
 
-
-# analytics
-
+# Constants for analytics
 ANALYTICS_SERVER_URL = 'http://127.0.0.1:5000/toy/'
 ANALYTICS_FOLDER = 'analytics'
 ANALYTICS_BASE_FILENAME = 'session_{:10.0f}.log'
