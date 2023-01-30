@@ -26,6 +26,10 @@ class TestGame(unittest.TestCase):
 
     @patch('rc_car.game.Game._get_event', return_value=[
         MockPygameEvent(pygame.QUIT, None)])
+    @patch('rc_car.game.Game._init_pygame', return_value=None)
+    @patch('rc_car.game.Game._init_driver_buttons', return_value=[])
+    @patch('rc_car.game.Game._get_pressed', return_value=None)
+    @patch('rc_car.game.Game._draw', return_value=None)
     @patch('rc_car.remote.Remote.command', return_value=True)
     def test_quit(self, *_):
         # pylint: disable=W0212

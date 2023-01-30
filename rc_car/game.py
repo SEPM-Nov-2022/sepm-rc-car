@@ -31,11 +31,7 @@ class Game:
 
     def __init__(self):
         """initialisation"""
-        pygame.init()
-        pygame.mixer.set_num_channels(2)
-        pygame.mixer.init()
-        pygame.display.set_caption(CAR_GAME_CAPTION)
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = self._init_pygame()
 
         self.driver_image = self._load_image(
             ASSET_DRIVER, (DRIVER_SIZE, DRIVER_SIZE))
@@ -45,12 +41,7 @@ class Game:
         self.remote.connect_to(self.car)
 
         # Load menu images (user profile pics)
-        self.driver_buttons = []
-        for i, icon_filename in enumerate([USER_1, USER_2, USER_3, USER_4]):
-            button = self._load_image(icon_filename, (MENU_ITEM_IMAGE_SIZE,
-                                      MENU_ITEM_IMAGE_SIZE)).convert_alpha()
-            self.driver_buttons.append(
-                MenuItem(615, 150 + i * 100, button, icon_filename))
+        self.driver_buttons = self._init_driver_buttons()
 
     def run(self):
         """main loop"""
@@ -61,7 +52,7 @@ class Game:
         while not exit_game:
             if can_drive and not game_paused:
                 can_drive = self.remote.command(
-                    pygame.key.get_pressed(), clock.get_time() / 1000)
+                    self._get_pressed(), clock.get_time() / 1000)
             self._draw(game_paused)
             clock.tick(TICKS)
 
@@ -192,6 +183,25 @@ class Game:
         base_dir = os.path.dirname(
             os.path.abspath(__file__))
         return os.path.join(f'{base_dir}/{ASSET_DIR}', asset_name)
+
+    def _init_pygame(self):
+        pygame.init()
+        pygame.mixer.set_num_channels(2)
+        pygame.mixer.init()
+        pygame.display.set_caption(CAR_GAME_CAPTION)
+        return pygame.display.set_mode((WIDTH, HEIGHT))
+
+    def _init_driver_buttons(self):
+        driver_buttons = []
+        for i, icon_filename in enumerate([USER_1, USER_2, USER_3, USER_4]):
+            button = self._load_image(icon_filename, (MENU_ITEM_IMAGE_SIZE,
+                                      MENU_ITEM_IMAGE_SIZE)).convert_alpha()
+            driver_buttons.append(
+                MenuItem(615, 150 + i * 100, button, icon_filename))
+        return driver_buttons
+
+    def _get_pressed(self):
+        return pygame.key.get_pressed()
 
     def _get_event(self):
         return pygame.event.get()
