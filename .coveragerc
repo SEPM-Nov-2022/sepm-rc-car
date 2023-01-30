@@ -9,7 +9,6 @@ omit =
     rc_car/car.py
     rc_car/game.py
     rc_car/rc_car_launcher.py
-    rc_car/remote.py
 
 exclude_lines =
     pragma: no cover
