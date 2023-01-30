@@ -3,30 +3,12 @@ from typing import Sequence
 import unittest
 import pygame
 from pygame import Color, Vector2
+from mock import patch
 
 from rc_car.game import Game
 
 
-class MockCar:
-    
-    @property
-    def color(self):
-        return Color(0, 0, 0)
 
-    @property
-    def angle(self):
-        return 0
-
-    @property
-    def position(self):
-        return Vector2(0,0)
-
-    def get_battery_level(self):
-        return 100
-
-class MockRemote:
-    def command(self, pressed: Sequence[bool], game_time) -> bool:
-        pass
 
 class MockClockEvent:
 
@@ -42,55 +24,28 @@ class MockPygameEvent:
         self.type = type
         self.key = key
 
-class MockMenuItem:
-    def is_selected(self):
-        return True
-
-    @property
-    def filename(self):
-        return 'user_3.png'
-
 class TestGame(unittest.TestCase):
     """Test class for game.py file"""
 
     def __init__(self, args):
         super().__init__(args)
-        self.mock_car = MockCar()
-        self.mock_remote = MockRemote()
-        self.next_event = MockPygameEvent(None, None)
-        self.next_key_presssed = 'key'
         
         self.called_quit = 0
 
-    def test_quit(self):
-        game = self._create_instance()
-        quits = self.called_quit
-        self.next_event = MockPygameEvent(pygame.QUIT, None)
+    @patch('rc_car.game.Game._get_clock', return_value=MockClockEvent())
+    @patch('rc_car.game.Game._get_event', return_value=[MockPygameEvent(pygame.QUIT, None)])
+    @patch('rc_car.game.Game._get_key_pressed', return_value='some key')
+    @patch('rc_car.remote.Remote.command', return_value=True)
+    # @patch('rc_car.car.Car.color', return_value=Color(0, 0, 0))
+    # @patch('rc_car.car.Car.angle', return_value=0)
+    # @patch('rc_car.car.Car.position', return_value=Vector2(0,0))
+    # @patch('rc_car.car.Car.get_battery_level', return_value=100)
+    def test_quit(self, *_):
+        def mock_quit():
+            self.called_quit += 1
+        game = Game()
+        game._quit = mock_quit
 
         game.run()
 
-        self.assertEqual(quits + 1, self.called_quit)
-
-    def _create_instance(self):
-        def mock_get_event():
-            return [self.next_event]
-
-        def mock_get_clock():
-            return MockClockEvent()
-
-        def mock_get_key_pressed():
-            return self.next_key_presssed
-
-        def mock_quit():
-            self.called_quit += 1
-
-        game = Game()
-
-        game.car = self.mock_car
-        game.remote = self.mock_remote
-        game._get_event = mock_get_event
-        game._get_clock = mock_get_clock
-        game._get_key_pressed = mock_get_key_pressed
-        game._quit = mock_quit
-
-        return game
+        self.assertEqual(1, self.called_quit)
