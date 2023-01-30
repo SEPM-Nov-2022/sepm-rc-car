@@ -57,11 +57,11 @@ class Game:
         can_drive = True
         exit_game = False
         game_paused = False
-        clock = self._get_clock()
+        clock = pygame.time.Clock()
         while not exit_game:
             if can_drive and not game_paused:
                 can_drive = self.remote.command(
-                    self._get_key_pressed(), clock.get_time() / 1000)
+                    pygame.key.get_pressed(), clock.get_time() / 1000)
             self._draw(game_paused)
             clock.tick(TICKS)
 
@@ -193,14 +193,8 @@ class Game:
             os.path.abspath(__file__))
         return os.path.join(f'{base_dir}/{ASSET_DIR}', asset_name)
 
-    def _get_clock(self):
-        return pygame.time.Clock()
-
     def _get_event(self):
         return pygame.event.get()
-    
-    def _get_key_pressed(self):
-        return pygame.key.get_pressed()
 
     def _quit(self):
         pygame.quit()

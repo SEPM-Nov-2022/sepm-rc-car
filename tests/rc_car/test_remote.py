@@ -26,7 +26,8 @@ class TestRemote(unittest.TestCase):
         expected_bool = False
         with self.assertLogs(level='ERROR') as log_msg:
             logging.getLogger().error(LOG_MSG)
-            response_bool = remote_obj.command(DUMMY_PRESSED_SEQUENCE, DUMMY_GAME_TIME)
+            response_bool = remote_obj.command(DUMMY_PRESSED_SEQUENCE,
+                                               DUMMY_GAME_TIME)
             self.assertEqual(log_msg.output, [f'ERROR:root:{LOG_MSG}'])
             self.assertIsInstance(response_bool, bool)
             self.assertEqual(response_bool, expected_bool)
@@ -37,6 +38,7 @@ class TestRemote(unittest.TestCase):
     def test_command_true(self, *_):
         """Test method for command returning True."""
         expected_bool = True
-        response_bool = remote_obj.command(DUMMY_PRESSED_SEQUENCE, DUMMY_GAME_TIME)
+        response_bool = remote_obj.command(DUMMY_PRESSED_SEQUENCE,
+                                           DUMMY_GAME_TIME)
         self.assertIsInstance(response_bool, bool)
         self.assertEqual(response_bool, expected_bool)
