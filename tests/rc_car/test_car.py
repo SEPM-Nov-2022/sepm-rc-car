@@ -24,36 +24,42 @@ class TestCar(unittest.TestCase):
     """Test class for the car.py file"""
 
     def test__steer(self):
+        """Test method for the car to steer."""
         remote_obj.car._steer(DUMMY_GAME_TIME, 1)
         response_steering = remote_obj.car.status['steering']
         self.assertIsInstance(response_steering, int)
         self.assertEqual(response_steering, 64)
 
     def test__no_steering(self):
+        """Test method for no steering."""
         remote_obj.car._no_steering(DUMMY_GAME_TIME)
         response_steering = remote_obj.car.status['steering']
         self.assertIsInstance(response_steering, int)
         self.assertEqual(response_steering, 0)
 
     def test__steer_left(self):
+        """Test method for the car to steer left."""
         remote_obj.car._steer_left(DUMMY_GAME_TIME)
         response_steering = remote_obj.car.status['steering']
         self.assertIsInstance(response_steering, int)
         self.assertEqual(response_steering, 100)
 
     def test__steer_right(self):
+        """Test method for the car to steer right."""
         remote_obj.car._steer_right(DUMMY_GAME_TIME)
         response_steering = remote_obj.car.status['steering']
         self.assertIsInstance(response_steering, int)
         self.assertEqual(response_steering, -100)
 
     def test__accelerate(self):
+        """Test method for the car to accelerate."""
         remote_obj.car._accelerate(DUMMY_GAME_TIME)
         response_acceleration = remote_obj.car.status['acceleration']
         self.assertIsInstance(response_acceleration, float)
         self.assertEqual(response_acceleration, 1.)
 
     def test__update_acceleration(self):
+        """Test method to update the car's acceleration."""
         dummy_change = 0.25
         remote_obj.car._update_acceleration(dummy_change)
         response_acceleration = remote_obj.car.status['acceleration']

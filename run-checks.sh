@@ -12,7 +12,7 @@ for x in $(git ls-files '*.py');do
 done
 
 # run 'pylint' for code quality checks
-pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') > $REPORT/pylint.txt
+pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') --disable=W0212 > $REPORT/pylint.txt
 
 # run pyflakes
 python3 -m pyflakes $(git ls-files '*.py') > $REPORT/pyflakes.txt
