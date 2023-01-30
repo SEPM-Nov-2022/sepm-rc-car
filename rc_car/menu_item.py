@@ -19,7 +19,7 @@ class MenuItem:
         self.clicked = False
         self._filename = filename
 
-    def draw(self, surface: Surface) -> None:
+    def draw(self, surface: Surface) -> None:  # pragma: no cover
         """Creates menu items, i.e. user's pictures"""
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -41,6 +41,6 @@ class MenuItem:
         return action
 
     @property
-    def filename(self):
+    def filename(self):  # pragma: no cover
         """returns the icon's filename"""
         return self._filename

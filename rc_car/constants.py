@@ -10,7 +10,7 @@ ASSET_CAR = 'car.png'
 ASSET_DRIVER = 'driver.png'
 ASSET_BATTERY = 'battery.png'
 ASSET_BACKGROUND = 'background.png'
-ENCODING = "utf-8"
+ENCODING = 'UTF-8'
 
 # User profile pictures
 USER_1 = 'user_1.png'

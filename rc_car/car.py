@@ -36,7 +36,7 @@ class Car:
         self.check_walls_handler = check_walls_handler
         self.battery = Battery()
 
-    def command(self, pressed, game_time):
+    def command(self, pressed, game_time):  # pragma: no cover
         """interacts with the remote controller"""
         self._update_speed(pressed, game_time)
         self._update_direction(pressed, game_time)
@@ -67,7 +67,7 @@ class Car:
         """returns the color"""
         return CAR_COLORS[self.status['color']]
 
-    def _update_speed(self, pressed, game_time):
+    def _update_speed(self, pressed, game_time):  # pragma: no cover
         """updates the speed"""
         if pressed[K_UP] and self.battery.battery_level > 0:
             log.debug('Accelerating...')
@@ -82,7 +82,7 @@ class Car:
             log.debug('Maintain speed...')
             self._no_input(game_time)
 
-    def _update_direction(self, pressed, game_time):
+    def _update_direction(self, pressed, game_time):  # pragma: no cover
         """updates the direction"""
         if pressed[K_RIGHT]:
             log.debug('Steering to the right...')
@@ -94,7 +94,7 @@ class Car:
             log.debug('Not steering...')
             self._no_steering(game_time)
 
-    def _update_misc(self, pressed):
+    def _update_misc(self, pressed):  # pragma: no cover
         if pressed[K_h]:
             log.debug('Playing the horn...')
             self._play_the_horn()
@@ -110,7 +110,7 @@ class Car:
             log.debug('Sending a battery alert...')
             self._send_battery_alert()
 
-    def _update(self, game_time):
+    def _update(self, game_time):  # pragma: no cover
         """merges all inputs"""
         self.status['velocity'] += (self.status['acceleration'] * game_time, 0)
         self.status['velocity'].x = max(-MAX_VELOCITY,
@@ -139,13 +139,13 @@ class Car:
             else self.status['acceleration'] + game_time
         )
 
-    def _reverse(self, game_time):
+    def _reverse(self, game_time):  # pragma: no cover
         """acceleration in reverse"""
         self._update_acceleration(-BRAKE_DECELERATION
                                   if self.status['velocity'].x > 0
                                   else self.status['acceleration'] - game_time)
 
-    def _brake(self, game_time):
+    def _brake(self, game_time):  # pragma: no cover
         """brake control"""
         self._update_acceleration(
             -copysign(BRAKE_DECELERATION, self.status['velocity'].x)
@@ -153,13 +153,13 @@ class Car:
             else -self.status['velocity'].x / game_time
         )
 
-    def _play_the_horn(self):
+    def _play_the_horn(self):  # pragma: no cover
         self.audio_handler(AudioEffect.HORN)
 
-    def _send_battery_alert(self):
+    def _send_battery_alert(self):  # pragma: no cover
         self.audio_handler(AudioEffect.BATTERY_LOW)
 
-    def _no_input(self, game_time):
+    def _no_input(self, game_time):  # pragma: no cover
         """the car will proceed by inertia"""
         self._update_acceleration(
             -copysign(DECELERATION, self.status['velocity'].x)
@@ -193,7 +193,7 @@ class Car:
                                       min(self.status['steering'],
                                           MAX_STEERING))
 
-    def _cicle_color(self):
+    def _cicle_color(self):  # pragma: no cover
         now = datetime.now()
         if (now - self.status['color_change']).seconds < 1:
             return

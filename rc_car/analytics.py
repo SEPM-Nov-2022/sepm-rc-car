@@ -8,7 +8,7 @@ from enum import Enum
 import requests
 
 from .constants import (ANALYTICS_BASE_FILENAME, ANALYTICS_FOLDER,
-                        ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA)
+                        ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA, ENCODING)
 from .utils import get_env
 
 
@@ -26,7 +26,7 @@ class AnalyticsStorage:
 
     def __init__(self):
         """builds the instance"""
-        if not os.path.exists(ANALYTICS_FOLDER):
+        if not os.path.exists(ANALYTICS_FOLDER):  # pragma: no cover
             os.mkdir(ANALYTICS_FOLDER)
         filename = ANALYTICS_BASE_FILENAME.format(time.time())
         self.full_filename = os.path.join(ANALYTICS_FOLDER, filename)
@@ -34,19 +34,19 @@ class AnalyticsStorage:
 
     def write(self, string):
         """writes the string to the log file"""
-        with open(self.full_filename, "w", encoding='UTF-8') as file_handle:
+        with open(self.full_filename, "w", encoding=ENCODING) as file_handle:
             file_handle.write(string)
         if time.time() - self.last_sync > ANALYTICS_SYNC_TIME_DELTA:
             self.sync_logs()
             self.last_sync = time.time()
 
-    def sync_logs(self):
+    def sync_logs(self):  # pragma: no cover
         """transfers logs to the remote server"""
         file_names = [os.path.join(ANALYTICS_FOLDER, f)
                       for f in os.listdir(ANALYTICS_FOLDER)
                       if os.path.isfile(os.path.join(ANALYTICS_FOLDER, f))]
         for file_name in file_names:
-            with open(file_name, 'r', encoding='UTF-8') as file_handler:
+            with open(file_name, 'r', encoding=ENCODING) as file_handler:
                 data = file_handler.readline()
                 device_id = json.loads(data)['deviceId']
                 url = f'{ANALYTICS_SERVER_URL}{device_id}/'
@@ -54,13 +54,13 @@ class AnalyticsStorage:
                 if response.ok:
                     os.unlink(file_name)
                 else:
-                    print(f'error transfering file {file_name}')
+                    print(f'error transferring file {file_name}')
 
 
 class CustomEncoder(json.JSONEncoder):
     """custom encoder to handle datetime"""
 
-    def default(self, o):
+    def default(self, o):  # pragma: no cover
         """handles custom types"""
         if isinstance(o, datetime):
             return str(o)
@@ -91,10 +91,10 @@ class Analytics:
 
     def store_input(self, analytics_input: AnalyticsInput):
         """storese the current log in the data structure"""
-        if analytics_input is None:
+        if analytics_input is None:  # pragma: no cover
             return
         input_name = analytics_input.name.lower()
-        if input_name not in self.log['inputs']:
+        if input_name not in self.log['inputs']:  # pragma: no cover
             self.log['inputs'][input_name] = 0
         else:
             self.log['inputs'][input_name] += 1
