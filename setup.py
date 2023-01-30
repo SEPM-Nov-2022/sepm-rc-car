@@ -14,7 +14,8 @@ setup(
         "freezegun",
         "pytest-cov",
         "PyYAML",
-        "requests"
+        "requests",
+        "mock"
     ],
     python_requires='>=3.6'
 )
