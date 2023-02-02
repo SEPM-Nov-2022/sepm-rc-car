@@ -8,7 +8,8 @@ from enum import Enum
 import requests
 
 from .constants import (ANALYTICS_BASE_FILENAME, ANALYTICS_FOLDER,
-                        ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA, ENCODING)
+                        ANALYTICS_SERVER_URL, ANALYTICS_SYNC_TIME_DELTA,
+                        ENCODING)
 from .utils import get_env
 
 

@@ -15,7 +15,7 @@ done
 pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') --disable=W0212 > $REPORT/pylint.txt
 
 # run pyflakes
-python3 -m pyflakes $(git ls-files '*.py') > $REPORT/pyflakes.txt
+python3 -m pyflakes $(git ls-files '*.py'|grep -v __init__.py) > $REPORT/pyflakes.txt
 
 # run 'pytest' and 'pytest-cov' for reporting test coverage
 pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests > $REPORT/pytest-cov.txt

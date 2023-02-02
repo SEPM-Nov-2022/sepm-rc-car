@@ -21,6 +21,6 @@ class TestUtils(unittest.TestCase):
 
     @patch('rc_car.utils.yaml.safe_load', side_effect=yaml.YAMLError)
     def test_get_env_yaml_error(self, _):
-        """Test method to simulate yaml error when reading the environment file"""
+        """Test method to simulate yaml error when reading the env file"""
         with self.assertRaises(yaml.YAMLError):
             get_env(ENV_NAME)
