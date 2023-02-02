@@ -20,7 +20,7 @@ jobs:
         pip install -r requirements.txt
     - name: pylint analysis whilst disabling no-name-in-module, no-member, and protected-access to avoid false positives
       run: |
-        pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py')
+        pylint --extension-pkg-whitelist=pygame $(git ls-files '*.py') --disable=W0212
     - name: Run unit tests via pytest
       run: |
         pytest --cov-report term-missing --cov=rc_car --cov-config=.coveragerc tests
