@@ -2,13 +2,23 @@
 
 ## The core
 
-The three main elements of the simulation are Remote, Car, and the Analytics Mock Server.
+The three main elements of the simulation are the remote controller, the car, and the analytics mock server.
 
 The class `Remote` models the remote control: it connects to the car, sends the commands, and manages the analytics. It simulates the mobile app responsible for car control and analytics.
 
-The class `Car` models the RC car: it translates inputs into actions moving in the area. It encapsulates the data relative to motion and the battery. The battery system has some complexity that deserved a separate class, `Battery` to properly separate the dynamics of driving from the logic of consuming energy.
+The class `Car` models the RC car: it translates inputs into actions moving the car in the simulation area. It encapsulates the data relative to motion and the battery. The battery system has some complexity that deserved a separate class, `Battery`, to properly separate the dynamics of driving from the logic of consuming energy.
 
 To create a more realistic model, the class `Game` contains all the logic of the simulation, such as most of the `PyGame` functionalities, the game's main loop, and all the elements concerning graphics and audio. The class `Game` simulates the world where the car lives. For example, the `Game`'s function `check walls` is a `Callable` used by `Car` to detect collisions. Similarly, the functions `notify` and `play audio` are `Callables` used by the class `Car` and the class `Remote` to interact with the world by sending messages or sounds.
+
+The class `Car` implements the action that can be performed by a car such as steering and accelerating. All the interaction with a car goes through the method `command`. The only other public methods are `get_battery_level` to provide info about the `battery`, and `handshake remote` to confirm the connection when there is enough charge.
+
+The class `Remote` receives the inputs from the simulation (the class `Game`) and forwards them to the car. It is also responsible for the storage of analytics.
+
+The analytics are managed by the class `Analytics` which stores the data locally and synchronises with the remote server periodically.
+
+The class `AnalyticsStorage` is a separate component to make it easier to mock the I/O during the tests.
+
+An Analytics Mock Server is available for testing. It is a simple Flask-based web application echoing the messages in the shell.
 
 ## Overview of the remaining scripts
 
@@ -16,6 +26,14 @@ To create a more realistic model, the class `Game` contains all the logic of the
 - `Logger` configures the application's logging system
 - `Utils` contains a utility method that returns the configuration in `environment.yml`
 - `RC Car Launcher` is nothing more than the simulation's entry point.
+
+## Running the tests
+There are the following shell scripts:
+- `run-tests.sh`: executes all the unit tests.
+- `run-cucumber.sh`: executes all the bdd tests.
+- `run-checks.sh`: generates the reports from the linters.
+
+The reports are available in the folder `reports`.
 
 ## Analytics
 
