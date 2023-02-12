@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.10.8, pytest-7.2.0, pluggy-1.0.0
+rootdir: /Users/ar/dev/mine/sepm-rc-car
+plugins: cov-4.0.0
+collected 27 items
+
+tests/rc_car/test_analytics.py ..                                        [  7%]
+tests/rc_car/test_battery.py ....                                        [ 22%]
+tests/rc_car/test_car.py ...........                                     [ 62%]
+tests/rc_car/test_game.py ..                                             [ 70%]
+tests/rc_car/test_logger.py ....                                         [ 85%]
+tests/rc_car/test_remote.py ..                                           [ 92%]
+tests/rc_car/test_utils.py ..                                            [100%]
+
+---------- coverage: platform darwin, python 3.10.8-final-0 ----------
+Name                  Stmts   Miss  Cover   Missing
+---------------------------------------------------
+rc_car/analytics.py      39      5    87%   38-42
+rc_car/battery.py        27      0   100%
+rc_car/car.py            47      4    91%   107-111
+rc_car/game.py          133     71    47%   61-62, 67-71, 77-79, 83, 92-98, 102-104, 107-113, 118, 122-133, 137-145, 149-150, 154-163, 167-176, 188-192, 195-201, 204, 207, 210
+rc_car/logger.py         25      0   100%
+rc_car/menu_item.py      23     17    26%   12-20, 28-41
+rc_car/remote.py         22      0   100%
+rc_car/utils.py           9      0   100%
+---------------------------------------------------
+TOTAL                   325     97    70%
+
+
+============================== 27 passed in 0.41s ==============================
